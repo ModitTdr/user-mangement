@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form'
-import type { UserListType } from "../../data/users"
-import { addUser } from '../services/userService';
-import Input from '../common/Input';
+import type { UserListType } from "@/data/users"
+import { addUser } from '@/services/userService';
+import InputReactHook from '@/components/ui/InputReactHook';
+import Button from '@/components/ui/Button/Button';
 
 type UserFormData = Omit<UserListType, "id">;
 
-const UserAdd = ({ setModal }: { setModal: (value: boolean) => void }) => {
+const UserAdd = ({ setModal, onSuccess }: { setModal: (value: boolean) => void, onSuccess: () => void }) => {
 
   const {
     register,
@@ -18,6 +19,7 @@ const UserAdd = ({ setModal }: { setModal: (value: boolean) => void }) => {
   });
   const onSubmit = (data: UserFormData) => {
     addUser(data);
+    onSuccess();
     setModal(false);
   };
 
@@ -32,14 +34,14 @@ const UserAdd = ({ setModal }: { setModal: (value: boolean) => void }) => {
 
       <form className="user-form" onSubmit={handleSubmit(onSubmit)}>
         <div className="form-grid">
-          <Input
+          <InputReactHook
             label='Full Name'
             name='name'
             placeholder='e.g. John Doe'
             register={register}
             error={errors.name}
           />
-          <Input
+          <InputReactHook
             label='Email Address'
             name='email'
             placeholder='john@example.com'
@@ -74,8 +76,9 @@ const UserAdd = ({ setModal }: { setModal: (value: boolean) => void }) => {
             {errors.gender && <span className="error">Please select a gender</span>}
           </div>
 
-          <Input
+          <InputReactHook
             label='Password'
+            type='password'
             name='password'
             placeholder='Minimum 8 characters'
             register={register}
@@ -84,8 +87,12 @@ const UserAdd = ({ setModal }: { setModal: (value: boolean) => void }) => {
         </div>
 
         <div className="form-actions">
-          <button type="submit" className="submit-btn">Create User Account</button>
-          <button type="reset" className="cancel-btn" onClick={() => setModal(false)}>Cancle</button>
+          <Button type="submit" size='lg'>
+            Create User
+          </Button>
+          <Button type="reset" size='lg' variant='ghost' onClick={() => setModal(false)}>
+            Cancle
+          </Button>
         </div>
       </form>
     </div>

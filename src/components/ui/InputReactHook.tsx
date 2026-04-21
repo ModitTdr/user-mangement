@@ -12,7 +12,7 @@ interface InputProps {
   error?: FieldError;
 }
 
-const Input = ({ label, type = "text", name, placeholder, register, error }: InputProps) => {
+const InputReactHook = ({ label, type = "text", name, placeholder, register, error }: InputProps) => {
   return (
     <div className="inputs">
       <label htmlFor={name}>{label}</label>
@@ -27,4 +27,4 @@ const Input = ({ label, type = "text", name, placeholder, register, error }: Inp
   );
 };
 
-export default Input;
+export default InputReactHook;

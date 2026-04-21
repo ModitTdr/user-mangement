@@ -1,5 +1,5 @@
-import type { UserListType } from "../../data/users";
-import { usersList } from "../../data/users";
+import type { UserListType } from "@/data/users";
+import { usersList } from "@/data/users";
 
 
 const LOCALSTORAGE_KEY = "users_data";
@@ -19,7 +19,6 @@ export const addUser = (user: Omit<UserListType, "id">): void => {
   const id = Date.now().toString();
   const updatedUsers = [...users, { ...user, id }];
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(updatedUsers));
-  window.location.reload();
 };
 
 export const deleteUser = (id: string): void => {

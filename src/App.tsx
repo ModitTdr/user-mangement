@@ -1,6 +1,6 @@
 import HeroSection from "./components/dashboard/HeroSection"
 import UserList from "./components/dashboard/UserList"
-import "./styles/userdashboard.scss"
+import "@/styles/userdashboard.scss"
 
 function App() {
   return (

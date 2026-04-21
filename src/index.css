@@ -12,6 +12,10 @@
   --social-bg: rgba(244, 243, 236, 0.5);
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #fbbf24;
+  --info: #3b82f6;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -67,7 +71,7 @@
   border-radius: 2rem;
   position: absolute;
   margin: 1rem;
-  font-size:12px;
+  font-size: 12px;
   top: 0;
   right: 0;
   width: fit-content;
@@ -95,7 +99,8 @@
     padding-left: 0.5rem;
   }
 
-  input, select {
+  input,
+  select {
     padding: 1rem 1.2rem;
     border-radius: 1rem;
     border: 1px solid var(--border);
@@ -159,7 +164,7 @@
         text-align: center;
       }
 
-      input:checked + .gender-checkmark {
+      input:checked+.gender-checkmark {
         background: white;
         color: black;
         border-color: rgba(0, 0, 0, 1);

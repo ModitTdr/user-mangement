@@ -1,10 +1,12 @@
 import { useState } from "react";
 import UserCards from "./UserCards";
 import { Plus } from "lucide-react";
-import { getUsers, deleteUser } from "../services/userService";
-import type { UserListType } from "../../data/users";
+import { getUsers, deleteUser } from "@/services/userService";
+import type { UserListType } from "@/data/users";
 import UserAdd from "./UserAdd";
 import { createPortal } from "react-dom";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button/Button";
 
 const UserList = () => {
   const [users, setUsers] = useState<UserListType[]>(() => getUsers());
@@ -35,7 +37,7 @@ const UserList = () => {
         </div>
         <div className="controls">
           <div className="search-box">
-            <input
+            <Input
               type="text"
               placeholder="Search by name or email..."
               value={search}
@@ -52,9 +54,9 @@ const UserList = () => {
               <option value="inactive">Inactive</option>
             </select>
             <div className="add-user">
-              <button onClick={() => setModal(true)}>
+              <Button onClick={() => setModal(true)} size="sm">
                 <Plus size={18} /> <span>Add User</span>
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -67,7 +69,6 @@ const UserList = () => {
               return (
                 <UserCards {...user} key={user.id} onDelete={handleDelete} />
               )
-
             })
             : <p id="no-users">No users found matching your criteria.</p>
         }
@@ -76,11 +77,10 @@ const UserList = () => {
       {
         modal && createPortal(
           <section className="user-add-section">
-            <UserAdd setModal={setModal} />
+            <UserAdd setModal={setModal} onSuccess={() => setUsers(getUsers())} />
           </section>,
           document.body
         )
-
       }
     </section>
   )

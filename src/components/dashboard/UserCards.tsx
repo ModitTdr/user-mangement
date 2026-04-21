@@ -1,5 +1,6 @@
-import type { UserListType } from "../../data/users"
+import type { UserListType } from "@//data/users"
 import { Trash2 } from "lucide-react"
+import Button from "@/components/ui/Button/Button";
 
 interface UserCardProps extends UserListType {
   onDelete?: (id: string) => void;
@@ -11,9 +12,9 @@ const UserCards = ({ id, name, email, role, status, onDelete }: UserCardProps) =
       {
         onDelete &&
         <div className="card-actions">
-          <button onClick={() => onDelete && onDelete(id)} className="delete-btn">
+          <Button onClick={() => onDelete(id)} variant="danger" size="icon">
             <Trash2 size={16} />
-          </button>
+          </Button>
         </div>
       }
       <div className="card-header">
