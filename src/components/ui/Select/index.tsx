@@ -1,35 +1,31 @@
 import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
-import styles from "./style.module.scss"
+import styles from "./style.module.scss";
 
-interface SelectProps {
-  options: { value: string; label: string }[];
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  options: { value: string | boolean; label: string }[];
   label?: string;
-  value?: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   register?: UseFormRegisterReturn;
   error?: FieldError;
 }
 
-const Select = ({ label, value, options, register, onChange }: SelectProps) => {
+const Select = ({ label, options, register, error, ...props }: SelectProps) => {
   return (
     <div className={`${styles.selectContainer}`}>
       {label && <label>{label}</label>}
       <select
         className={`${styles.select}`}
-        value={value}
-        onChange={onChange}
+        {...props}
         {...register}
       >
-        {
-          options.map((option) => (
-            <option key={option.value} value={option.value} >
-              {option.label}
-            </option>
-          ))
-        }
+        {options.map((option) => (
+          <option key={String(option.value)} value={String(option.value)}>
+            {option.label}
+          </option>
+        ))}
       </select>
+      {error && <span className={styles.error}>{error.message}</span>}
     </div>
-  )
-}
+  );
+};
 
-export default Select
+export default Select;

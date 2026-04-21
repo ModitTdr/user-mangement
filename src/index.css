@@ -99,28 +99,6 @@
     padding-left: 0.5rem;
   }
 
-  input {
-    padding: 1rem 1.2rem;
-    border-radius: 1rem;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text);
-    font-size: 1rem;
-    backdrop-filter: blur(4px);
-    transition: all 0.3s ease;
-
-    &:focus {
-      outline: none;
-      border-color: rgba(255, 255, 255, 0.4);
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    option {
-      background: #1a1a1a;
-      color: white;
-    }
-  }
-
   .error {
     color: #ff4d4d;
     font-size: 0.8rem;

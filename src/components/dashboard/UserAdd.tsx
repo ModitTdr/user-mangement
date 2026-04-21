@@ -1,26 +1,43 @@
 import { useForm } from 'react-hook-form'
 import type { UserListType } from "@/data/users"
-import { addUser } from '@/services/userService';
+import { addUser, updateUser } from '@/services/userService';
 import InputReactHook from '@/components/ui/InputReactHook';
 import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
 import Select from '@/components/ui/Select';
+import Checkbox from '@/components/ui/Checkbox';
 
 type UserFormData = Omit<UserListType, "id">;
 
-const UserAdd = ({ setModal, onSuccess }: { setModal: (value: boolean) => void, onSuccess: () => void }) => {
+interface UserAddProps {
+  setModal: (value: boolean) => void;
+  onSuccess: () => void;
+  user?: UserListType;
+}
+
+const UserAdd = ({ setModal, onSuccess, user }: UserAddProps) => {
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<UserFormData>({
-    defaultValues: {
+    defaultValues: user ? {
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      gender: user.gender,
+      status: user.status
+    } : {
       status: true
     }
   });
+
   const onSubmit = (data: UserFormData) => {
-    addUser(data);
+    if (user) {
+      updateUser({ ...data, id: user.id });
+    } else {
+      addUser(data);
+    }
     onSuccess();
     setModal(false);
   };
@@ -29,8 +46,8 @@ const UserAdd = ({ setModal, onSuccess }: { setModal: (value: boolean) => void, 
     <div className="table">
       <div className="top">
         <div className="title-area">
-          <h3>Add New Member</h3>
-          <p>Create a new account for the system</p>
+          <h3>{user ? "Edit Member" : "Add New Member"}</h3>
+          <p>{user ? "Update the member's information" : "Create a new account for the system"}</p>
         </div>
       </div>
 
@@ -47,32 +64,39 @@ const UserAdd = ({ setModal, onSuccess }: { setModal: (value: boolean) => void, 
             }
             error={errors.name}
           />
-          <InputReactHook
-            label='Email Address'
-            name='email'
-            placeholder='john@example.com'
-            register={
-              register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Invalid email address",
-                },
-              })
-            }
-            error={errors.email}
+          {
+            !user &&
+            <InputReactHook
+              label='Email Address'
+              name='email'
+              placeholder='john@example.com'
+              register={
+                register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Invalid email address",
+                  },
+                })
+              }
+              error={errors.email}
+            />
+          }
+
+          <Select
+            label="Role"
+            options={[
+              { value: "student", label: "Student" },
+              { value: "teacher", label: "Teacher" },
+            ]}
+            register={register("role", { required: true })}
           />
 
-          <div className="inputs">
-            <Select
-              label="Role"
-              options={[
-                { value: "student", label: "Student" },
-                { value: "teacher", label: "Teacher" },
-              ]}
-              register={register("role", { required: true })}
-            />
-          </div>
+          <Checkbox
+            label="Account Status"
+            register={register("status")}
+            value={user?.status || true}
+          />
 
           <div className="inputs">
             <label>Gender Selection</label>
@@ -92,31 +116,14 @@ const UserAdd = ({ setModal, onSuccess }: { setModal: (value: boolean) => void, 
             </div>
             {errors.gender && <span className="error">Please select a gender</span>}
           </div>
-
-          <InputReactHook
-            label='Password'
-            type='password'
-            name='password'
-            placeholder='Minimum 8 characters'
-            register={
-              register("password", {
-                required: true,
-                minLength: {
-                  value: 8,
-                  message: "Password must be at least 8 characters long",
-                },
-              })
-            }
-            error={errors.password}
-          />
         </div>
 
         <div className="form-actions">
-          <Button type="submit" size='lg'>
-            Create User
+          <Button type="submit" size='md'>
+            {user ? "Update User" : "Create User"}
           </Button>
-          <Button type="reset" size='lg' variant='ghost' onClick={() => setModal(false)}>
-            Cancle
+          <Button type="reset" size='md' variant='ghost' onClick={() => setModal(false)}>
+            Cancel
           </Button>
         </div>
       </form>

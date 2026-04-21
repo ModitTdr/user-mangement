@@ -13,11 +13,22 @@ const UserList = () => {
   const [users, setUsers] = useState<UserListType[]>(() => getUsers());
   const [search, setSearch] = useState<string>("");
   const [modal, setModal] = useState<boolean>(false);
+  const [editingUser, setEditingUser] = useState<UserListType | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
   const handleDelete = (id: string) => {
     deleteUser(id);
     setUsers(getUsers());
+  };
+
+  const handleEdit = (user: UserListType) => {
+    setEditingUser(user);
+    setModal(true);
+  };
+
+  const closeModal = (value: boolean) => {
+    setModal(value);
+    if (!value) setEditingUser(null);
   };
 
   const filteredUsers = users.filter((user) => {
@@ -69,7 +80,7 @@ const UserList = () => {
           filteredUsers.length !== 0
             ? filteredUsers.map((user) => {
               return (
-                <UserCards {...user} key={user.name + user.id} onDelete={handleDelete} />
+                <UserCards {...user} key={user.name + user.id} onDelete={handleDelete} onEdit={handleEdit} />
               )
             })
             : <p id="no-users">No users found matching your criteria.</p>
@@ -79,7 +90,11 @@ const UserList = () => {
       {
         modal && createPortal(
           <section className="user-add-section">
-            <UserAdd setModal={setModal} onSuccess={() => setUsers(getUsers())} />
+            <UserAdd
+              setModal={closeModal}
+              onSuccess={() => setUsers(getUsers())}
+              user={editingUser || undefined}
+            />
           </section>,
           document.body
         )

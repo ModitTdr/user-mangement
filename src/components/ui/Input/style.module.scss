@@ -1,0 +1,19 @@
+input {
+  padding: 0.8rem 1.4rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+  }
+      
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}

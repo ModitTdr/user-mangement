@@ -29,8 +29,6 @@ export const deleteUser = (id: string): void => {
 
 export const updateUser = (updatedUser: UserListType): void => {
   const users = getUsers();
-  const updatedUsers = users.map((user) =>
-    user.id === updatedUser.id ? updatedUser : user
-  );
+  const updatedUsers = users.map((user) => user.id === updatedUser.id ? updatedUser : user);
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(updatedUsers));
 };

@@ -5,7 +5,6 @@ export interface UserListType {
   role: string,
   status: boolean,
   gender: string,
-  password: string
 }
 
 export const usersList: UserListType[] = [
@@ -16,7 +15,6 @@ export const usersList: UserListType[] = [
     role: "teacher",
     status: true,
     gender: "male",
-    password: "1234",
   },
   {
     id: "testId2",
@@ -25,7 +23,6 @@ export const usersList: UserListType[] = [
     role: "teacher",
     status: false,
     gender: "female",
-    password: "abcd"
   },
   {
     id: "testId3",
@@ -34,7 +31,6 @@ export const usersList: UserListType[] = [
     role: "student",
     status: true,
     gender: "male",
-    password: "pass123"
   },
   {
     id: "testId4",
@@ -43,7 +39,6 @@ export const usersList: UserListType[] = [
     role: "student",
     status: true,
     gender: "female",
-    password: "secure1"
   },
   {
     id: "testId5",
@@ -52,6 +47,5 @@ export const usersList: UserListType[] = [
     role: "student",
     status: false,
     gender: "male",
-    password: "xyz789"
   }
 ];

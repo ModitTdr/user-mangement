@@ -1,22 +1,31 @@
 import type { UserListType } from "@//data/users"
-import { Trash2 } from "lucide-react"
+import { PencilIcon, Trash2 } from "lucide-react"
 import Button from "@/components/ui/Button";
 
 interface UserCardProps extends UserListType {
   onDelete?: (id: string) => void;
+  onEdit?: (user: UserListType) => void;
 }
 
-const UserCards = ({ id, name, email, role, status, onDelete }: UserCardProps) => {
+const UserCards = (user: UserCardProps) => {
+  const { id, name, email, role, status, onDelete, onEdit } = user;
+
   return (
     <div className="card" >
-      {
-        onDelete &&
-        <div className="card-actions">
-          <Button onClick={() => onDelete(id)} variant="danger" size="icon" hidden={false}>
+      <div className="card-actions">
+        {
+          onEdit &&
+          <Button onClick={() => onEdit(user)} variant="outline" size="icon" hidden={false}>
+            <PencilIcon size={16} />
+          </Button>
+        }
+        {
+          onDelete &&
+          <Button onClick={() => onDelete(id)} variant="outline" size="icon" hidden={false}>
             <Trash2 size={16} />
           </Button>
-        </div>
-      }
+        }
+      </div>
       <div className="card-header">
         <img src="https://img.freepik.com/premium-vector/avatar-profil-picture-icon-vector-design-template_393879-5783.jpg?semt=ais_hybrid&w=740&q=80" alt="gender" />
       </div>
