@@ -29,6 +29,12 @@
 
   &--icon {
     padding: 0.55rem;
+
+    &:hover {
+      filter: brightness(1);
+      animation-duration: 100ms;
+      transform: translateY(0px) scale(1.1);
+    }
   }
 
   &--success {
@@ -57,5 +63,10 @@
     background: transparent;
     color: var(--text);
     border: 1px solid var(--border);
+  }
+
+  &--hidden {
+    opacity: 0;
+    pointer-events: none;
   }
 }

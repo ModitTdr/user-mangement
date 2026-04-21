@@ -99,8 +99,7 @@
     padding-left: 0.5rem;
   }
 
-  input,
-  select {
+  input {
     padding: 1rem 1.2rem;
     border-radius: 1rem;
     border: 1px solid var(--border);

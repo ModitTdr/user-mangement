@@ -1,4 +1,4 @@
-import type { UseFormRegister, FieldError } from "react-hook-form";
+import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import type { UserListType } from "../../data/users";
 
 type UserFormData = Omit<UserListType, "id">;
@@ -8,7 +8,7 @@ interface InputProps {
   type?: string;
   placeholder: string;
   name: keyof UserFormData;
-  register: UseFormRegister<UserFormData>;
+  register: UseFormRegisterReturn
   error?: FieldError;
 }
 
@@ -20,7 +20,7 @@ const InputReactHook = ({ label, type = "text", name, placeholder, register, err
         id={name}
         type={type}
         placeholder={placeholder}
-        {...register(name, { required: `${label} is required` })}
+        {...register}
       />
       {error && <span className="error">{error.message}</span>}
     </div>

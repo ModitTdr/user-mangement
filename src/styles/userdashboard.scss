@@ -113,26 +113,26 @@
       flex-grow: 1;
       justify-content: flex-end;
 
-      input,
-      select {
-        padding: 0.8rem 1.4rem;
-        border-radius: 1rem;
-        border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.1);
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        backdrop-filter: blur(4px);
-        transition: all 0.3s ease;
-
-        &:focus {
-          outline: none;
-          background: rgba(255, 255, 255, 0.2);
-        }
-
-        &::placeholder {
-          color: var(--text-muted);
-        }
-      }
+      // input,
+      // select {
+      //   padding: 0.8rem 1.4rem;
+      //   border-radius: 1rem;
+      //   border: 1px solid var(--border);
+      //   background: rgba(255, 255, 255, 0.1);
+      //   color: var(--text-muted);
+      //   font-size: 0.9rem;
+      //   backdrop-filter: blur(4px);
+      //   transition: all 0.3s ease;
+      //
+      //   &:focus {
+      //     outline: none;
+      //     background: rgba(255, 255, 255, 0.2);
+      //   }
+      //
+      //   &::placeholder {
+      //     color: var(--text-muted);
+      //   }
+      // }
 
       .search-box {
         flex-grow: 1;
@@ -199,27 +199,6 @@
     top: 1rem;
     right: 1rem;
     z-index: 10;
-
-    .delete-btn {
-      background: rgba(229, 57, 53, 0.9);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(4px);
-      opacity: 0;
-      pointer-events: none;
-
-      &:hover {
-        background: rgba(229, 57, 53, 1);
-      }
-    }
   }
 
   .card-body {
@@ -255,16 +234,18 @@
   .status.inactive {
     background-color: #e74c3c;
   }
-}
 
-.card:hover {
-  cursor: pointer;
-  transform: translateY(-8px);
-  border-color: rgba(255, 255, 255, 0.4);
+  &:hover {
+    cursor: pointer;
+    transform: translateY(-8px);
+    border-color: rgba(255, 255, 255, 0.4);
 
-  .card-actions .delete-btn {
-    opacity: 1;
-    pointer-events: auto;
+    .btn--hidden {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+
   }
 }
 

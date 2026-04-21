@@ -1,0 +1,31 @@
+.selectContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.select {
+  padding: 1rem 1.4rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font-size: 0.9rem;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--text);
+  }
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

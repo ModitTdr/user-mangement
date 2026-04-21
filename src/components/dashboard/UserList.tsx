@@ -6,7 +6,8 @@ import type { UserListType } from "@/data/users";
 import UserAdd from "./UserAdd";
 import { createPortal } from "react-dom";
 import Input from "@/components/ui/Input";
-import Button from "@/components/ui/Button/Button";
+import Button from "@/components/ui/Button";
+import Select from "@/components/ui/Select";
 
 const UserList = () => {
   const [users, setUsers] = useState<UserListType[]>(() => getUsers());
@@ -45,14 +46,15 @@ const UserList = () => {
             />
           </div>
           <div className="filter-box">
-            <select
+            <Select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
+              options={[
+                { value: "all", label: "All" },
+                { value: "active", label: "Active" },
+                { value: "inactive", label: "Inactive" },
+              ]}
+            />
             <div className="add-user">
               <Button onClick={() => setModal(true)} size="sm">
                 <Plus size={18} /> <span>Add User</span>
@@ -67,7 +69,7 @@ const UserList = () => {
           filteredUsers.length !== 0
             ? filteredUsers.map((user) => {
               return (
-                <UserCards {...user} key={user.id} onDelete={handleDelete} />
+                <UserCards {...user} key={user.name + user.id} onDelete={handleDelete} />
               )
             })
             : <p id="no-users">No users found matching your criteria.</p>
@@ -82,6 +84,7 @@ const UserList = () => {
           document.body
         )
       }
+
     </section>
   )
 }
