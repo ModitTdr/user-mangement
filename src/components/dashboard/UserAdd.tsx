@@ -19,6 +19,7 @@ const UserAdd = ({ setModal, onSuccess, user }: UserAddProps) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<UserFormData>({
     defaultValues: user ? {
@@ -31,6 +32,8 @@ const UserAdd = ({ setModal, onSuccess, user }: UserAddProps) => {
       status: true
     }
   });
+
+  const status = watch("status");
 
   const onSubmit = (data: UserFormData) => {
     if (user) {
@@ -95,7 +98,7 @@ const UserAdd = ({ setModal, onSuccess, user }: UserAddProps) => {
           <Checkbox
             label="Account Status"
             register={register("status")}
-            value={user?.status || true}
+            value={status}
           />
 
           <div className="inputs">

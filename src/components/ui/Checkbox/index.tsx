@@ -1,6 +1,5 @@
 import type { UseFormRegisterReturn } from "react-hook-form";
 import styles from "./style.module.scss";
-import { useState } from "react";
 
 interface CheckboxProps {
   label?: string;
@@ -11,16 +10,22 @@ interface CheckboxProps {
 }
 
 const Checkbox = ({ label, register, value, onCheckLabel, offCheckLabel }: CheckboxProps) => {
-  const [checked, isChecked] = useState(value);
   return (
     <div className={styles.checkboxContainer}>
-      <label className={styles.label}>{label}</label>
+      {label && <label className={styles.label}>{label}</label>}
       <label className={styles.checkbox}>
-        <input type="checkbox" {...register} checked={checked} onChange={(e) => isChecked(e.target.checked)} />
-        <span>{checked ? (onCheckLabel || 'Activated') : (offCheckLabel || 'Deactivated')}</span>
+        <input 
+          type="checkbox" 
+          {...register} 
+          checked={!!value}
+          onChange={(e) => {
+            register?.onChange(e);
+          }}
+        />
+        <span>{value ? (onCheckLabel || 'Activated') : (offCheckLabel || 'Deactivated')}</span>
       </label>
     </div>
   )
 }
 
-export default Checkbox
+export default Checkbox;

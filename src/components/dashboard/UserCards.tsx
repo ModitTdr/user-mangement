@@ -1,4 +1,4 @@
-import type { UserListType } from "@//data/users"
+import type { UserListType } from "@/data/users"
 import { PencilIcon, Trash2 } from "lucide-react"
 import Button from "@/components/ui/Button";
 
@@ -15,13 +15,13 @@ const UserCards = (user: UserCardProps) => {
       <div className="card-actions">
         {
           onEdit &&
-          <Button onClick={() => onEdit(user)} variant="outline" size="icon" hidden={false}>
+          <Button onClick={() => onEdit(user)} variant="outline" size="icon" hidden={true} className="card-btn">
             <PencilIcon size={16} />
           </Button>
         }
         {
           onDelete &&
-          <Button onClick={() => onDelete(id)} variant="outline" size="icon" hidden={false}>
+          <Button onClick={() => onDelete(id)} variant="outline" size="icon" hidden={true} className="card-btn">
             <Trash2 size={16} />
           </Button>
         }

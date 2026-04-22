@@ -222,12 +222,11 @@
     transform: translateY(-8px);
     border-color: rgba(255, 255, 255, 0.4);
 
-    .btn--hidden {
+    .card-btn {
       opacity: 1;
       pointer-events: auto;
+      transition: all 0.2s ease;
     }
-
-
   }
 }
 
