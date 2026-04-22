@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form'
 import type { UserListType } from "@/data/users"
 import { addUser, updateUser } from '@/services/userService';
-import InputReactHook from '@/components/ui/InputReactHook';
 import Button from '@/components/ui/Button';
 import Select from '@/components/ui/Select';
 import Checkbox from '@/components/ui/Checkbox';
+import Input from '@/components/ui/Input';
 
 type UserFormData = Omit<UserListType, "id">;
 
@@ -53,7 +53,7 @@ const UserAdd = ({ setModal, onSuccess, user }: UserAddProps) => {
 
       <form className="user-form" onSubmit={handleSubmit(onSubmit)}>
         <div className="form-grid">
-          <InputReactHook
+          <Input
             label='Full Name'
             name='name'
             placeholder='e.g. John Doe'
@@ -66,7 +66,7 @@ const UserAdd = ({ setModal, onSuccess, user }: UserAddProps) => {
           />
           {
             !user &&
-            <InputReactHook
+            <Input
               label='Email Address'
               name='email'
               placeholder='john@example.com'
