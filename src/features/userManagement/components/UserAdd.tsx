@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form'
-import type { UserListType } from "@/data/users"
 import { addUser, updateUser } from '@/services/userService';
 import Button from '@/components/ui/Button';
 import Select from '@/components/ui/Select';
 import Checkbox from '@/components/ui/Checkbox';
 import Input from '@/components/ui/Input';
+import type { UserListType } from '@/features/userManagement/data/users';
 
 type UserFormData = Omit<UserListType, "id">;
 

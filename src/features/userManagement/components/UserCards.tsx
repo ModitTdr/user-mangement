@@ -1,4 +1,4 @@
-import type { UserListType } from "@/data/users"
+import type { UserListType } from "@/features/userManagement/data/users"
 import { PencilIcon, Trash2 } from "lucide-react"
 import Button from "@/components/ui/Button";
 
