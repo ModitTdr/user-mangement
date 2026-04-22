@@ -7,16 +7,17 @@ interface CheckboxProps {
   value?: boolean;
   onCheckLabel?: string;
   offCheckLabel?: string;
+  className?: string;
 }
 
-const Checkbox = ({ label, register, value, onCheckLabel, offCheckLabel }: CheckboxProps) => {
+const Checkbox = ({ label, register, value, onCheckLabel, offCheckLabel, className }: CheckboxProps) => {
   return (
-    <div className={styles.checkboxContainer}>
+    <div className={`${styles.checkboxContainer} ${className}`}>
       {label && <label className={styles.label}>{label}</label>}
       <label className={styles.checkbox}>
-        <input 
-          type="checkbox" 
-          {...register} 
+        <input
+          type="checkbox"
+          {...register}
           checked={!!value}
           onChange={(e) => {
             register?.onChange(e);

@@ -2,12 +2,12 @@ import { useState } from "react";
 import UserCards from "./UserCards";
 import { Plus } from "lucide-react";
 import { getUsers, deleteUser } from "@/services/userService";
-import type { UserListType } from "@/data/users";
-import UserAdd from "./UserAdd";
 import { createPortal } from "react-dom";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
+import type { UserListType } from "../data/users";
+import UserAdd from "./UserAdd";
 
 const UserList = () => {
   const [users, setUsers] = useState<UserListType[]>(() => getUsers());

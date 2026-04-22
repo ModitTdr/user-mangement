@@ -1,7 +1,7 @@
-import { navLinks } from "../../../data/navLinks"
-import "../../../styles/navbar.scss"
+import { navLinks } from "@/data/navLinks"
+import "@/styles/navbar.scss"
 
-const navbar = () => {
+const Navbar = () => {
   return (
     <header className="header">
       <nav className="navbar">
@@ -22,4 +22,4 @@ const navbar = () => {
   )
 }
 
-export default navbar
+export default Navbar

@@ -1,5 +1,5 @@
-import type { UserListType } from "@/data/users";
-import { usersList } from "@/data/users";
+import type { UserListType } from "@/features/userManagement/data/users";
+import { usersList } from "@/features/userManagement/data/users";
 
 
 const LOCALSTORAGE_KEY = "users_data";

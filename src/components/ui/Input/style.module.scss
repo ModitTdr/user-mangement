@@ -13,13 +13,24 @@
     backdrop-filter: blur(4px);
     transition: all 0.3s ease;
 
-  &:focus {
-    outline: none;
-    background: rgba(255, 255, 255, 0.2);
+    &:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+    }
+        
+    &::placeholder {
+      color: var(--text-muted);
+    }
+
   }
-      
-  &::placeholder {
-    color: var(--text-muted);
+
+  &--sm{
+    input{padding: 0.8rem 1.5rem;}
   }
+  &--md{
+    input{padding: 1rem 1.4rem;}
+  }
+  &--lg{
+    input{padding: 1.2rem 2rem;}
   }
 }
