@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
 import type { UserListType } from "../data/users";
 import UserAdd from "./UserAdd";
+import toast from "react-hot-toast";
 
 const UserList = () => {
   const [users, setUsers] = useState<UserListType[]>(() => getUsers());
@@ -24,12 +25,15 @@ const UserList = () => {
   const handleEdit = (user: UserListType) => {
     setEditingUser(user);
     setModal(true);
+      toast.success('Deleted Success');
+      toast.error('Failed to delete user')
   };
 
   const closeModal = (value: boolean) => {
     setModal(value);
     if (!value) setEditingUser(null);
   };
+    toast.success(editingUser ? "User updated successfully" : "User added successfully");
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch = user.name.toLowerCase().includes(search.toLowerCase())
