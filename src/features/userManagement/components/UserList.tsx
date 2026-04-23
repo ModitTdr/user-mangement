@@ -1,51 +1,83 @@
-import { useState } from "react";
-import UserCards from "./UserCards";
-import { Plus } from "lucide-react";
-import { getUsers, deleteUser } from "@/services/userService";
+import { useEffect, useState } from "react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import { createPortal } from "react-dom";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
 import type { UserListType } from "../data/users";
 import UserAdd from "./UserAdd";
+import { getUsers as getUsersService, deleteUser as deleteUserService } from "../services/userServices";
 import toast from "react-hot-toast";
 
 const UserList = () => {
-  const [users, setUsers] = useState<UserListType[]>(() => getUsers());
+  const [loading, setIsLoading] = useState<boolean>(false);
+  const [users, setUsers] = useState<UserListType[]>([]);
   const [search, setSearch] = useState<string>("");
   const [modal, setModal] = useState<boolean>(false);
   const [editingUser, setEditingUser] = useState<UserListType | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
-  const handleDelete = (id: string) => {
-    deleteUser(id);
-    setUsers(getUsers());
-  };
+  useEffect(() => {
+    const func = async () => {
+      try {
+        setIsLoading(true);
+        const test = await getUsersService();
+        setUsers(test)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    func()
+  }, []);
 
-  const handleEdit = (user: UserListType) => {
-    setEditingUser(user);
-    setModal(true);
+
+  const handleDelete = async (id: number) => {
+    const prevData = users;
+    setUsers((users) => users.filter(u => u.id !== id))
+    try {
+      await deleteUserService(id);
       toast.success('Deleted Success');
+    } catch {
       toast.error('Failed to delete user')
+      setUsers(prevData);
+    }
   };
 
   const closeModal = (value: boolean) => {
     setModal(value);
     if (!value) setEditingUser(null);
   };
+  const handleEdit = (user: UserListType) => {
+    setEditingUser(user);
+    closeModal(true);
+  };
+  const handleSucess = async (newUser: UserListType) => {
+    if (editingUser) {
+      setUsers(prev => prev.map(u => u.id === editingUser.id ? { ...u, ...newUser } : u));
+    } else {
+      setUsers(prev => [...prev, newUser!]);
+    }
     toast.success(editingUser ? "User updated successfully" : "User added successfully");
+  }
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch = user.name.toLowerCase().includes(search.toLowerCase())
-      || user.email.toLowerCase().includes(search.toLowerCase());
-    const matchesStatus = statusFilter === "all"
-      || (statusFilter === "active" && user.status === true)
-      || (statusFilter === "inactive" && user.status === false);
-    return matchesSearch && matchesStatus;
+      || user.email.toLowerCase().includes(search.toLowerCase())
+      || user.username.toLowerCase().includes(search.toLowerCase())
+      || user.address.city.toLowerCase().includes(search.toLowerCase())
+      || user.phone.toLowerCase().includes(search.toLowerCase())
+      || user.company.name.toLowerCase().includes(search.toLowerCase());
+    return matchesSearch;
   });
 
+  if (loading) {
+    return <p>Loading...</p>
+  }
+
   return (
-    <section className="table">
+    <section className="list-container">
       <div className="top">
         <div className="title-area">
           <h3>User List ({users.length})</h3>
@@ -79,12 +111,39 @@ const UserList = () => {
         </div>
       </div>
 
-      <div className="card-container">
+      <div className="table">
+        <div className="table-header">
+          <h4>Id</h4>
+          <h4>Name</h4>
+          <h4>Email</h4>
+          <h4>Address</h4>
+          <h4>Phone</h4>
+          <h4>Company</h4>
+          <h4>Actions</h4>
+        </div>
         {
           filteredUsers.length !== 0
             ? filteredUsers.map((user) => {
               return (
-                <UserCards {...user} key={user.name + user.id} onDelete={handleDelete} onEdit={handleEdit} />
+                <div className="table-body" key={user.id}>
+                  <p>{user.id}</p>
+                  <div>
+                    <span>{user.name}</span>
+                    <small>@{user.username}</small>
+                  </div>
+                  <p>{user.email}</p>
+                  <p>{user.address.city}</p>
+                  <p>{user.phone}</p>
+                  <p>{user.company.name}</p>
+                  <div className="table-actions">
+                    <Button onClick={() => handleEdit(user)} size="icon">
+                      <Pencil size={14} />
+                    </Button>
+                    <Button onClick={() => handleDelete(user.id)} size="icon">
+                      <Trash2 size={14} />
+                    </Button>
+                  </div>
+                </div>
               )
             })
             : <p id="no-users">No users found matching your criteria.</p>
@@ -95,16 +154,15 @@ const UserList = () => {
         modal && createPortal(
           <section className="user-add-section">
             <UserAdd
-              setModal={closeModal}
-              onSuccess={() => setUsers(getUsers())}
+              closeModal={closeModal}
+              onSuccess={handleSucess}
               user={editingUser || undefined}
             />
           </section>,
           document.body
         )
       }
-
-    </section>
+    </section >
   )
 }
 
