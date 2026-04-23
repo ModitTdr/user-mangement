@@ -1,10 +1,10 @@
-import type { UserListType } from "@/features/userManagement/data/users"
 import { PencilIcon, Trash2 } from "lucide-react"
 import Button from "@/components/ui/Button";
+import type { UserFormValues } from "../schema/formValidation";
 
-interface UserCardProps extends UserListType {
+interface UserCardProps extends UserFormValues {
   onDelete?: (id: number) => void;
-  onEdit?: (user: UserListType) => void;
+  onEdit?: (user: UserFormValues) => void;
 }
 
 const UserCards = (user: UserCardProps) => {

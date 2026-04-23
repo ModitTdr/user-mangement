@@ -4,17 +4,17 @@ import { createPortal } from "react-dom";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
-import type { UserListType } from "../data/users";
 import UserAdd from "./UserAdd";
 import { getUsers as getUsersService, deleteUser as deleteUserService } from "../services/userServices";
 import toast from "react-hot-toast";
+import type { UserFormValues } from "../schema/formValidation";
 
 const UserList = () => {
   const [loading, setIsLoading] = useState<boolean>(false);
-  const [users, setUsers] = useState<UserListType[]>([]);
+  const [users, setUsers] = useState<UserFormValues[]>([]);
   const [search, setSearch] = useState<string>("");
   const [modal, setModal] = useState<boolean>(false);
-  const [editingUser, setEditingUser] = useState<UserListType | null>(null);
+  const [editingUser, setEditingUser] = useState<UserFormValues | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
   useEffect(() => {
@@ -49,11 +49,11 @@ const UserList = () => {
     setModal(value);
     if (!value) setEditingUser(null);
   };
-  const handleEdit = (user: UserListType) => {
+  const handleEdit = (user: UserFormValues) => {
     setEditingUser(user);
     closeModal(true);
   };
-  const handleSucess = async (newUser: UserListType) => {
+  const handleSucess = async (newUser: UserFormValues) => {
     if (editingUser) {
       setUsers(prev => prev.map(u => u.id === editingUser.id ? { ...u, ...newUser } : u));
     } else {
@@ -75,7 +75,6 @@ const UserList = () => {
   if (loading) {
     return <p>Loading...</p>
   }
-
   return (
     <section className="list-container">
       <div className="top">

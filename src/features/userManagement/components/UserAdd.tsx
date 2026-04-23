@@ -1,25 +1,24 @@
 import { useForm } from 'react-hook-form'
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
-import type { UserListType } from '@/features/userManagement/data/users';
 import { addUser as addUserService, updateUser as updateUserService } from '@/features/userManagement/services/userServices';
-
-type UserFormData = Omit<UserListType, "id">;
-
+import { zodResolver } from '@hookform/resolvers/zod';
+import { userFormSchema, type UserFormValues } from '../schema/formValidation';
 interface UserAddProps {
   closeModal: (value: boolean) => void;
-  onSuccess: (user: UserListType) => void;
-  user?: UserListType;
+  onSuccess: (user: UserFormValues) => void;
+  user?: UserFormValues;
 }
 
 const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
-
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<UserFormData>({
+  } = useForm<UserFormValues>({
+    resolver: zodResolver(userFormSchema),
     defaultValues: {
+      id: user?.id || 0,
       name: user?.name || "",
       username: user?.username || "",
       email: user?.email || "",
@@ -28,20 +27,20 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
         suite: "",
         city: "",
         zipcode: "",
-        geo: {
-          lat: "",
-          lng: "",
-        }
       },
       phone: user?.phone || "",
-      company: user?.company || {},
+      company: user?.company || {
+        name: "",
+        catchPhrase: "",
+        bs: "",
+      },
     }
   });
 
-  const onSubmit = async (data: UserFormData) => {
+  const onSubmit = async (data: UserFormValues) => {
     try {
       const result = user
-        ? await updateUserService({ ...data, id: user.id })
+        ? await updateUserService(data)
         : await addUserService(data);
       onSuccess(result);
     } catch (error) {
@@ -49,8 +48,6 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
     } finally {
       closeModal(false);
     }
-
-
   };
 
   return (
@@ -68,22 +65,14 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             label='Name'
             name='name'
             placeholder='e.g. John Doe'
-            register={
-              register("name", {
-                required: "Name is required",
-              })
-            }
+            register={register("name")}
             error={errors.name}
           />
           <Input
             label='Username'
             name='username'
             placeholder='e.g. johndoe'
-            register={
-              register("username", {
-                required: "Username is required",
-              })
-            }
+            register={register("username")}
             error={errors.username}
           />
 
@@ -93,15 +82,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
               label='Email Address'
               name='email'
               placeholder='john@example.com'
-              register={
-                register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Invalid email address",
-                  },
-                })
-              }
+              register={register("email")}
               error={errors.email}
             />
           }
@@ -110,88 +91,56 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             label='Street'
             name='address.street'
             placeholder='e.g. 123 Main St'
-            register={
-              register("address.street", {
-                required: "Street is required",
-              })
-            }
+            register={register("address.street")}
             error={errors.username}
           />
           <Input
             label='Suite'
             name='address.suite'
             placeholder='e.g. 123'
-            register={
-              register("address.suite", {
-                required: "Suite is required",
-              })
-            }
+            register={register("address.suite")}
             error={errors.address?.suite}
           />
           <Input
             label='City'
             name='address.city'
             placeholder='e.g. New York'
-            register={
-              register("address.city", {
-                required: "City is required",
-              })
-            }
+            register={register("address.city")}
             error={errors.address?.city}
           />
           <Input
             label='Zipcode'
             name='address.zipcode'
             placeholder='e.g. 12345'
-            register={
-              register("address.zipcode", {
-                required: "Zipcode is required",
-              })
-            }
+            register={register("address.zipcode")}
             error={errors.address?.zipcode}
           />
           <Input
             label='Phone'
             name='phone'
             placeholder='e.g. 12345'
-            register={
-              register("phone", {
-                required: "Phone is required",
-              })
-            }
+            register={register("phone")}
             error={errors.phone}
           />
           <Input
             label='Company Name'
             name='company.name'
             placeholder='e.g. Google'
-            register={
-              register("company.name", {
-                required: "Company name is required",
-              })
-            }
+            register={register("company.name")}
             error={errors.company?.name}
           />
           <Input
             label='Company Catchphrase'
             name='company.catchPhrase'
             placeholder='e.g. Google'
-            register={
-              register("company.catchPhrase", {
-                required: "Company name is required",
-              })
-            }
+            register={register("company.catchPhrase")}
             error={errors.address?.zipcode}
           />
           <Input
             label='Company BS'
             name='company.bs'
             placeholder='e.g. Google'
-            register={
-              register("company.bs", {
-                required: "Company name is required",
-              })
-            }
+            register={register("company.bs")}
             error={errors.address?.zipcode}
           />
         </div>

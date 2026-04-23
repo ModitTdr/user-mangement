@@ -1,4 +1,4 @@
-import type { UserListType } from "../data/users";
+import type { UserFormValues } from "../schema/formValidation";
 
 const API_URL = 'https://jsonplaceholder.typicode.com';
 
@@ -16,14 +16,16 @@ export const getUsers = async () => {
   }
 }
 
-export const addUser = async (user: Omit<UserListType, 'id'>) => {
+export const addUser = async (user: UserFormValues) => {
+  const generateId = Math.floor(Date.now() * 1000); //simulating backend id auto generation
   try {
+    const newData = { ...user, id: generateId };
     const res = await fetch(`${API_URL}/users`, {
       method: "POST",
       headers: {
         'Content-Type': "application/json; charset=UTF-8"
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify(newData),
     });
     if (!res.ok) {
       throw new Error("Failed to create user");
@@ -35,7 +37,7 @@ export const addUser = async (user: Omit<UserListType, 'id'>) => {
   }
 };
 
-export const updateUser = async (user: UserListType) => {
+export const updateUser = async (user: UserFormValues) => {
   try {
     const res = await fetch(`${API_URL}/users/${user.id}`, {
       method: "PUT",
