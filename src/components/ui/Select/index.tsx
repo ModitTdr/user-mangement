@@ -6,14 +6,15 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   register?: UseFormRegisterReturn;
   error?: FieldError;
+  selectSize?: "sm" | "md" | "lg";
 }
 
-const Select = ({ label, options, register, error, ...props }: SelectProps) => {
+const Select = ({ label, options, register, error, selectSize = "md", ...props }: SelectProps) => {
   return (
     <div className={`${styles.selectContainer}`}>
       {label && <label>{label}</label>}
       <select
-        className={`${styles.select}`}
+        className={`${styles.select} ${styles[`select--${selectSize}`]}`}
         {...props}
         {...register}
       >

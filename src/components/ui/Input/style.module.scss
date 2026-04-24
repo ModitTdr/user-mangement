@@ -2,35 +2,43 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  
-  input{
-    padding: 0.8rem 1.4rem;
-    border-radius: 1rem;
+
+  input {
+    border-radius: var(--rounded);
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.3);
     color: var(--text-muted);
     font-size: 0.9rem;
     backdrop-filter: blur(4px);
     transition: all 0.3s ease;
+    height: 40px;
 
     &:focus {
       outline: none;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.5);
     }
-        
+
     &::placeholder {
       color: var(--text-muted);
     }
 
   }
 
-  &--sm{
-    input{padding: 0.8rem 1.5rem;}
+  &--sm {
+    input {
+      padding: 0 1.5rem;
+    }
   }
-  &--md{
-    input{padding: 1rem 1.4rem;}
+
+  &--md {
+    input {
+      padding: 0 1.4rem;
+    }
   }
-  &--lg{
-    input{padding: 1.2rem 2rem;}
+
+  &--lg {
+    input {
+      padding: 0 2rem;
+    }
   }
 }
