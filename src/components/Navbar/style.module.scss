@@ -19,36 +19,38 @@
   color: var(--text);
   background-color: transparent;
 
-  h1 {
+  &__title {
     font-size: 24px;
   }
 
-  ul {
+  &__navlinks {
     display: flex;
     gap: 0.4rem;
     padding: 0.3rem 0.6rem;
     border-radius: 1.8rem;
+    li{
+      list-style-type: none;
+    }
+  }
 
-    li {
-      list-style: none;
-
-      a {
-        text-decoration: none;
-        color: var(--text);
-        height: 32px;
-        display: flex;
-        align-items: center;
-        padding: 0rem 1.4rem;
-        border-radius: 1.8rem;
-        font-weight: 600;
-      }
-
-      a:active {
+  &__link {
+    text-decoration: none;
+    color: var(--text);
+    height: 32px;
+    display: flex;
+    align-items: center;
+    padding: 0rem 1.4rem;
+    border-radius: 1.8rem;
+    font-weight: 600;
+    transition: all 0.1s ease-in-out;
+      &--active {
         color: white;
         background-color: var(--text);
       }
-
-    }
+      &:hover{
+        color: white;
+        background-color: var(--text);
+      }
   }
 }
 

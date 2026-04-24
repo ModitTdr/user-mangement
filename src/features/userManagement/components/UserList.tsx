@@ -8,6 +8,7 @@ import UserAdd from "./UserAdd";
 import { getUsers as getUsersService, deleteUser as deleteUserService } from "../services/userServices";
 import toast from "react-hot-toast";
 import type { UserFormValues } from "../schema/formValidation";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
 
 const UserList = () => {
   const [loading, setIsLoading] = useState<boolean>(false);
@@ -110,44 +111,48 @@ const UserList = () => {
         </div>
       </div>
 
-      <div className="table">
-        <div className="table-header">
-          <h4>Id</h4>
-          <h4>Name</h4>
-          <h4>Email</h4>
-          <h4>Address</h4>
-          <h4>Phone</h4>
-          <h4>Company</h4>
-          <h4>Actions</h4>
-        </div>
-        {
-          filteredUsers.length !== 0
-            ? filteredUsers.map((user) => {
-              return (
-                <div className="table-body" key={user.id}>
-                  <p>{user.id}</p>
-                  <div>
-                    <span>{user.name}</span>
-                    <small>@{user.username}</small>
-                  </div>
-                  <p>{user.email}</p>
-                  <p>{user.address.city}</p>
-                  <p>{user.phone}</p>
-                  <p>{user.company.name}</p>
-                  <div className="table-actions">
-                    <Button onClick={() => handleEdit(user)} size="icon">
-                      <Pencil size={14} />
-                    </Button>
-                    <Button onClick={() => handleDelete(user.id)} size="icon">
-                      <Trash2 size={14} />
-                    </Button>
-                  </div>
-                </div>
-              )
-            })
-            : <p id="no-users">No users found matching your criteria.</p>
-        }
-      </div>
+      <Table>
+        <TableHead>
+          <TableRow gridTemplateColumns="50px 180px 220px 180px 200px 200px 1fr">
+            <TableHeader>Id</TableHeader>
+            <TableHeader>Name</TableHeader>
+            <TableHeader>Email</TableHeader>
+            <TableHeader>Address</TableHeader>
+            <TableHeader>Phone</TableHeader>
+            <TableHeader>Company</TableHeader>
+            <TableHeader>Actions</TableHeader>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {
+            filteredUsers.length !== 0
+              ? filteredUsers.map((user) => {
+                return (
+                  <TableRow key={user.id} gridTemplateColumns="50px 180px 220px 180px 200px 200px 1fr">
+                    <TableCell>{user.id}</TableCell>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.address.city}</TableCell>
+                    <TableCell>{user.phone}</TableCell>
+                    <TableCell>{user.company.name}</TableCell>
+                    <TableCell>
+                      <Button onClick={() => handleEdit(user)} size="icon">
+                        <Pencil size={14} />
+                      </Button>
+                      <Button onClick={() => handleDelete(user.id)} size="icon">
+                        <Trash2 size={14} />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                )
+              })
+              :
+              <TableRow>
+                <TableCell>No users found matching your criteria.</TableCell>
+              </TableRow>
+          }
+        </TableBody>
+      </Table>
 
       {
         modal && createPortal(
