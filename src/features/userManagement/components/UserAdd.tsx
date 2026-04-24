@@ -1,52 +1,57 @@
 import { useForm } from 'react-hook-form'
-import { addUser, updateUser } from '@/services/userService';
 import Button from '@/components/ui/Button';
-import Select from '@/components/ui/Select';
-import Checkbox from '@/components/ui/Checkbox';
 import Input from '@/components/ui/Input';
-import type { UserListType } from '@/features/userManagement/data/users';
-
-type UserFormData = Omit<UserListType, "id">;
-
+import { addUser as addUserService, updateUser as updateUserService } from '@/features/userManagement/services/userServices';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { userFormSchema, type UserFormValues } from '../schema/formValidation';
 interface UserAddProps {
-  setModal: (value: boolean) => void;
-  onSuccess: () => void;
-  user?: UserListType;
+  closeModal: (value: boolean) => void;
+  onSuccess: (user: UserFormValues) => void;
+  user?: UserFormValues;
 }
 
-const UserAdd = ({ setModal, onSuccess, user }: UserAddProps) => {
-
+const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<UserFormData>({
-    defaultValues: user ? {
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      gender: user.gender,
-      status: user.status
-    } : {
-      status: true
+    formState: { errors, isSubmitting },
+  } = useForm<UserFormValues>({
+    resolver: zodResolver(userFormSchema),
+    defaultValues: {
+      id: user?.id || 0,
+      name: user?.name || "",
+      username: user?.username || "",
+      email: user?.email || "",
+      address: user?.address || {
+        street: "",
+        suite: "",
+        city: "",
+        zipcode: "",
+      },
+      phone: user?.phone || "",
+      company: user?.company || {
+        name: "",
+        catchPhrase: "",
+        bs: "",
+      },
     }
   });
 
-  const status = watch("status");
-
-  const onSubmit = (data: UserFormData) => {
-    if (user) {
-      updateUser({ ...data, id: user.id });
-    } else {
-      addUser(data);
+  const onSubmit = async (data: UserFormValues) => {
+    try {
+      const result = user
+        ? await updateUserService(data)
+        : await addUserService(data);
+      onSuccess(result);
+    } catch (error) {
+      console.log(error)
+    } finally {
+      closeModal(false);
     }
-    onSuccess();
-    setModal(false);
   };
 
   return (
-    <div className="table">
+    <div className="list-container">
       <div className="top">
         <div className="title-area">
           <h3>{user ? "Edit Member" : "Add New Member"}</h3>
@@ -57,75 +62,94 @@ const UserAdd = ({ setModal, onSuccess, user }: UserAddProps) => {
       <form className="user-form" onSubmit={handleSubmit(onSubmit)}>
         <div className="form-grid">
           <Input
-            label='Full Name'
+            label='Name'
             name='name'
             placeholder='e.g. John Doe'
-            register={
-              register("name", {
-                required: "Full name is required",
-              })
-            }
+            register={register("name")}
             error={errors.name}
           />
+          <Input
+            label='Username'
+            name='username'
+            placeholder='e.g. johndoe'
+            register={register("username")}
+            error={errors.username}
+          />
+
           {
             !user &&
             <Input
               label='Email Address'
               name='email'
               placeholder='john@example.com'
-              register={
-                register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Invalid email address",
-                  },
-                })
-              }
+              register={register("email")}
               error={errors.email}
             />
           }
 
-          <Select
-            label="Role"
-            options={[
-              { value: "student", label: "Student" },
-              { value: "teacher", label: "Teacher" },
-            ]}
-            register={register("role", { required: true })}
+          <Input
+            label='Street'
+            name='address.street'
+            placeholder='e.g. 123 Main St'
+            register={register("address.street")}
+            error={errors.username}
           />
-
-          <Checkbox
-            label="Account Status"
-            register={register("status")}
-            value={status}
+          <Input
+            label='Suite'
+            name='address.suite'
+            placeholder='e.g. 123'
+            register={register("address.suite")}
+            error={errors.address?.suite}
           />
-
-          <div className="inputs">
-            <label>Gender Selection</label>
-            <div className="gender-checkbox-group">
-              <label className="gender-option">
-                <input type="radio" value="male" {...register("gender", { required: true })} />
-                <span className="gender-checkmark">Male</span>
-              </label>
-              <label className="gender-option">
-                <input type="radio" value="female" {...register("gender", { required: true })} />
-                <span className="gender-checkmark">Female</span>
-              </label>
-              <label className="gender-option">
-                <input type="radio" value="other" {...register("gender", { required: true })} />
-                <span className="gender-checkmark">Other</span>
-              </label>
-            </div>
-            {errors.gender && <span className="error">Please select a gender</span>}
-          </div>
+          <Input
+            label='City'
+            name='address.city'
+            placeholder='e.g. New York'
+            register={register("address.city")}
+            error={errors.address?.city}
+          />
+          <Input
+            label='Zipcode'
+            name='address.zipcode'
+            placeholder='e.g. 12345'
+            register={register("address.zipcode")}
+            error={errors.address?.zipcode}
+          />
+          <Input
+            label='Phone'
+            name='phone'
+            placeholder='e.g. 12345'
+            register={register("phone")}
+            error={errors.phone}
+          />
+          <Input
+            label='Company Name'
+            name='company.name'
+            placeholder='e.g. Google'
+            register={register("company.name")}
+            error={errors.company?.name}
+          />
+          <Input
+            label='Company Catchphrase'
+            name='company.catchPhrase'
+            placeholder='e.g. Google'
+            register={register("company.catchPhrase")}
+            error={errors.address?.zipcode}
+          />
+          <Input
+            label='Company BS'
+            name='company.bs'
+            placeholder='e.g. Google'
+            register={register("company.bs")}
+            error={errors.address?.zipcode}
+          />
         </div>
 
         <div className="form-actions">
-          <Button type="submit" size='md'>
-            {user ? "Update User" : "Create User"}
+          <Button type="submit" size='md' disabled={isSubmitting}>
+            {isSubmitting ? "Submitting..." : user ? "Update" : "Create"}
           </Button>
-          <Button type="reset" size='md' variant='ghost' onClick={() => setModal(false)}>
+          <Button type="reset" size='md' variant='ghost' onClick={() => closeModal(false)} disabled={isSubmitting}>
             Cancel
           </Button>
         </div>

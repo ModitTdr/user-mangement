@@ -1,14 +1,14 @@
-import type { UserListType } from "@/features/userManagement/data/users"
 import { PencilIcon, Trash2 } from "lucide-react"
 import Button from "@/components/ui/Button";
+import type { UserFormValues } from "../schema/formValidation";
 
-interface UserCardProps extends UserListType {
-  onDelete?: (id: string) => void;
-  onEdit?: (user: UserListType) => void;
+interface UserCardProps extends UserFormValues {
+  onDelete?: (id: number) => void;
+  onEdit?: (user: UserFormValues) => void;
 }
 
 const UserCards = (user: UserCardProps) => {
-  const { id, name, email, role, status, onDelete, onEdit } = user;
+  const { id, name, email, address, onDelete, onEdit } = user;
 
   return (
     <div className="card" >
@@ -32,9 +32,9 @@ const UserCards = (user: UserCardProps) => {
       <div className="card-body">
         <div className="card-title">
           <h4>{name}</h4>
-          <span className={`status ${status ? "active" : "inactive"}`} />
+          {/* <span className={`status ${status ? "active" : "inactive"}`} /> */}
         </div>
-        <p>{role}</p>
+        <p>{address.city}</p>
         <p>{email}</p>
       </div>
     </div>

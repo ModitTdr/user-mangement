@@ -29,7 +29,7 @@
 
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
       margin-bottom: 2.5rem;
     }
@@ -75,7 +75,7 @@
   }
 }
 
-.table {
+.list-container {
   margin-top: 2rem;
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 2.5rem;
@@ -113,7 +113,6 @@
       flex-grow: 1;
       justify-content: flex-end;
 
-  
       .search-box {
         flex-grow: 1;
         max-width: 400px;
@@ -237,6 +236,48 @@
   grid-column: span 4;
 }
 
+.table {
+  font-size: 12px;
+  color: var(--text);
+  font-weight: 400;
+  overflow: scroll;
+
+  .table-header {
+    display: grid;
+    grid-template-columns: 40px 165px 200px 165px 200px 150px 1fr;
+    font-weight: 500;
+    padding: 1.2rem 0;
+
+    h4:last-child {
+      text-align: end;
+    }
+  }
+
+  .table-body {
+    display: grid;
+    grid-template-columns: 40px 165px 200px 165px 200px 150px 1fr;
+    align-items: center;
+    padding: 1rem 0rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    div:nth-of-type(1) {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      text-align: start;
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: end;
+    }
+  }
+}
 
 @media (max-width: 1024px) {
   .card-container {
@@ -304,4 +345,5 @@
       }
     }
   }
+
 }
