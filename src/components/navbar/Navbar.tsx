@@ -1,5 +1,5 @@
 import { navLinks } from "@/data/navLinks"
-import "@/styles/navbar.scss"
+import "./navbar.scss"
 
 const Navbar = () => {
   return (

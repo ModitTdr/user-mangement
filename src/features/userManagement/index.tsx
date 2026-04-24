@@ -1,4 +1,4 @@
-import "@/styles/userdashboard.scss"
+import "./style.scss"
 import HeroSection from "./components/HeroSection"
 import UserList from "./components/UserList"
 
