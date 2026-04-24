@@ -1,0 +1,45 @@
+.table {
+  width: 100%;
+  overflow: scroll;
+  margin-top: 1.5rem;
+
+  &__head {
+    background: rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(var(--text-rgb), 0.1); 
+  }
+
+  &__row {
+    display: grid;
+    align-items: center;
+    transition: background 0.2s ease;
+    border-bottom: 1px solid rgba(black, 0.08);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: rgba(black, 0.04);
+    }
+  }
+  
+  &__cell {
+    padding: 1rem 1.5rem;
+    font-size: 13px;
+    color: rgba(var(--text));
+    display: flex;
+    align-items: start;
+
+    &.header {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    &:last-child {
+      justify-content: end;
+      display: flex;
+      gap: 0.4rem;
+    }
+  }
+}
