@@ -1,17 +1,17 @@
 import { navLinks } from "@/data/navLinks"
-import "./navbar.scss"
+import styles from "./style.module.scss"
 
 const Navbar = () => {
   return (
-    <header className="header">
-      <nav className="navbar">
-        <h1>UserManagement</h1>
-        <ul>
+    <header className={styles.header}>
+      <nav className={styles.navbar}>
+        <h1 className={styles.navbar__title}>UserManagement</h1>
+        <ul className={styles.navbar__navlinks}>
           {
             navLinks.map((link) => {
               return (
                 <li key={link.id}>
-                  <a href={link.url}>{link.title}</a>
+                  <a className={styles.navbar__link} href={link.url}>{link.title}</a>
                 </li>
               )
             })
