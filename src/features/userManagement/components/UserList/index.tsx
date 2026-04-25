@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Pencil, Plus, Trash2 } from "lucide-react";
+import { MoveRight, Pencil, Trash2 } from "lucide-react";
 import { createPortal } from "react-dom";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
-import UserAdd from "./UserAdd";
-import { getUsers as getUsersService, deleteUser as deleteUserService } from "../services/userServices";
+import UserAdd from "../UserAdd";
+import { getUsers as getUsersService, deleteUser as deleteUserService } from "@/features/userManagement/services/userServices";
 import toast from "react-hot-toast";
-import type { UserFormValues } from "../schema/formValidation";
+import type { UserFormValues } from "@/features/userManagement/schema/formValidation";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
+import styles from './style.module.scss';
 
 const UserList = () => {
   const [loading, setIsLoading] = useState<boolean>(false);
@@ -33,7 +34,6 @@ const UserList = () => {
     func()
   }, []);
 
-
   const handleDelete = async (id: number) => {
     const prevData = users;
     setUsers((users) => users.filter(u => u.id !== id))
@@ -50,10 +50,12 @@ const UserList = () => {
     setModal(value);
     if (!value) setEditingUser(null);
   };
+
   const handleEdit = (user: UserFormValues) => {
     setEditingUser(user);
     closeModal(true);
   };
+
   const handleSucess = async (newUser: UserFormValues) => {
     if (editingUser) {
       setUsers(prev => prev.map(u => u.id === editingUser.id ? { ...u, ...newUser } : u));
@@ -76,38 +78,34 @@ const UserList = () => {
   if (loading) {
     return <p>Loading...</p>
   }
+
   return (
-    <section className="list-container">
-      <div className="top">
-        <div className="title-area">
+    <section className={styles.userlist}>
+      <div className={styles.userlist__header}>
+        <div className={styles.userlist__title}>
           <h3>User List ({users.length})</h3>
           <p>Manage and monitor system users</p>
         </div>
-        <div className="controls">
-          <div className="search-box">
-            <Input
-              type="text"
-              placeholder="Search by name or email..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-          <div className="filter-box">
-            <Select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              options={[
-                { value: "all", label: "All" },
-                { value: "active", label: "Active" },
-                { value: "inactive", label: "Inactive" },
-              ]}
-            />
-            <div className="add-user">
-              <Button onClick={() => setModal(true)} size="sm">
-                <Plus size={18} /> <span>Add User</span>
-              </Button>
-            </div>
-          </div>
+        <div className={styles.userlist__actions}>
+          <Input
+            type="text"
+            placeholder="Search by name or email..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            options={[
+              { value: "all", label: "All" },
+              { value: "active", label: "Active" },
+              { value: "inactive", label: "Inactive" },
+            ]}
+            selectSize="sm"
+          />
+          <Button onClick={() => setModal(true)} size="sm">
+            <span>Add User</span> <MoveRight size={15} />
+          </Button>
         </div>
       </div>
 
@@ -136,10 +134,10 @@ const UserList = () => {
                     <TableCell>{user.phone}</TableCell>
                     <TableCell>{user.company.name}</TableCell>
                     <TableCell>
-                      <Button onClick={() => handleEdit(user)} size="icon">
+                      <Button onClick={() => handleEdit(user)} size="icon" variant="ghost">
                         <Pencil size={14} />
                       </Button>
-                      <Button onClick={() => handleDelete(user.id)} size="icon">
+                      <Button onClick={() => handleDelete(user.id)} size="icon" variant="ghost">
                         <Trash2 size={14} />
                       </Button>
                     </TableCell>
