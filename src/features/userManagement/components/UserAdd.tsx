@@ -67,6 +67,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             placeholder='e.g. John Doe'
             register={register("name")}
             error={errors.name}
+            disabled={isSubmitting}
           />
           <Input
             label='Username'
@@ -74,6 +75,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             placeholder='e.g. johndoe'
             register={register("username")}
             error={errors.username}
+            disabled={isSubmitting}
           />
 
           {
@@ -84,6 +86,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
               placeholder='john@example.com'
               register={register("email")}
               error={errors.email}
+              disabled={isSubmitting}
             />
           }
 
@@ -93,6 +96,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             placeholder='e.g. 123 Main St'
             register={register("address.street")}
             error={errors.username}
+            disabled={isSubmitting}
           />
           <Input
             label='Suite'
@@ -100,6 +104,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             placeholder='e.g. 123'
             register={register("address.suite")}
             error={errors.address?.suite}
+            disabled={isSubmitting}
           />
           <Input
             label='City'
@@ -107,6 +112,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             placeholder='e.g. New York'
             register={register("address.city")}
             error={errors.address?.city}
+            disabled={isSubmitting}
           />
           <Input
             label='Zipcode'
@@ -114,6 +120,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             placeholder='e.g. 12345'
             register={register("address.zipcode")}
             error={errors.address?.zipcode}
+            disabled={isSubmitting}
           />
           <Input
             label='Phone'
@@ -121,6 +128,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             placeholder='e.g. 12345'
             register={register("phone")}
             error={errors.phone}
+            disabled={isSubmitting}
           />
           <Input
             label='Company Name'
@@ -128,6 +136,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             placeholder='e.g. Google'
             register={register("company.name")}
             error={errors.company?.name}
+            disabled={isSubmitting}
           />
           <Input
             label='Company Catchphrase'
@@ -135,6 +144,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             placeholder='e.g. Google'
             register={register("company.catchPhrase")}
             error={errors.address?.zipcode}
+            disabled={isSubmitting}
           />
           <Input
             label='Company BS'
@@ -142,6 +152,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             placeholder='e.g. Google'
             register={register("company.bs")}
             error={errors.address?.zipcode}
+            disabled={isSubmitting}
           />
         </div>
 
