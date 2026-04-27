@@ -1,48 +1,50 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { MoveRight, Pencil, Trash2 } from "lucide-react";
 import { createPortal } from "react-dom";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
 import UserAdd from "../UserAdd";
-import { getUsers as getUsersService, deleteUser as deleteUserService } from "@/features/userManagement/services/userServices";
+import { deleteUser as deleteUserService, getUsers } from "@/features/userManagement/services/userServices";
 import toast from "react-hot-toast";
 import type { UserFormValues } from "@/features/userManagement/schema/formValidation";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
 import styles from './style.module.scss';
+import { useFetch } from "@/hook/useFetch";
 
 const UserList = () => {
-  const [loading, setIsLoading] = useState<boolean>(false);
-  const [users, setUsers] = useState<UserFormValues[]>([]);
   const [search, setSearch] = useState<string>("");
   const [modal, setModal] = useState<boolean>(false);
   const [editingUser, setEditingUser] = useState<UserFormValues | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
-  useEffect(() => {
-    const func = async () => {
-      try {
-        setIsLoading(true);
-        const test = await getUsersService();
-        setUsers(test)
-      } catch (error) {
-        console.log(error)
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    func()
-  }, []);
+  const { data, isFetching, setData } = useFetch<UserFormValues[]>({
+    queryFn: getUsers
+  });
+
+  const filteredUsers = useMemo(() => {
+    return data.filter((user) => {
+      const matchesSearch = user.name.toLowerCase().includes(search.toLowerCase())
+        || user.email.toLowerCase().includes(search.toLowerCase())
+        || user.username.toLowerCase().includes(search.toLowerCase())
+        || user.address.city.toLowerCase().includes(search.toLowerCase())
+        || user.phone.toLowerCase().includes(search.toLowerCase())
+        || user.company.name.toLowerCase().includes(search.toLowerCase());
+      return matchesSearch;
+    });
+  }, [data, search]);
+
+  if (isFetching) return <p>Loading...</p>;
 
   const handleDelete = async (id: number) => {
-    const prevData = users;
-    setUsers((users) => users.filter(u => u.id !== id))
+    const prevData = data;
+    setData((users) => users.filter(u => u.id !== id))
     try {
       await deleteUserService(id);
       toast.success('Deleted Success');
     } catch {
       toast.error('Failed to delete user')
-      setUsers(prevData);
+      setData(prevData);
     }
   };
 
@@ -58,32 +60,18 @@ const UserList = () => {
 
   const handleSucess = async (newUser: UserFormValues) => {
     if (editingUser) {
-      setUsers(prev => prev.map(u => u.id === editingUser.id ? { ...u, ...newUser } : u));
+      setData(prev => prev.map(u => u.id === editingUser.id ? { ...u, ...newUser } : u));
     } else {
-      setUsers(prev => [...prev, newUser!]);
+      setData(prev => [...prev, newUser!]);
     }
     toast.success(editingUser ? "User updated successfully" : "User added successfully");
-  }
-
-  const filteredUsers = users.filter((user) => {
-    const matchesSearch = user.name.toLowerCase().includes(search.toLowerCase())
-      || user.email.toLowerCase().includes(search.toLowerCase())
-      || user.username.toLowerCase().includes(search.toLowerCase())
-      || user.address.city.toLowerCase().includes(search.toLowerCase())
-      || user.phone.toLowerCase().includes(search.toLowerCase())
-      || user.company.name.toLowerCase().includes(search.toLowerCase());
-    return matchesSearch;
-  });
-
-  if (loading) {
-    return <p>Loading...</p>
   }
 
   return (
     <section className={styles.userlist}>
       <div className={styles.userlist__header}>
         <div className={styles.userlist__title}>
-          <h3>User List ({users.length})</h3>
+          <h3>User List ({data.length})</h3>
           <p>Manage and monitor system users</p>
         </div>
         <div className={styles.userlist__actions}>
