@@ -4,6 +4,7 @@ import Input from '@/components/ui/Input';
 import { addUser as addUserService, updateUser as updateUserService } from '@/features/userManagement/services/userServices';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userFormSchema, type UserFormValues } from '../schema/formValidation';
+import LoaderText from '@/components/ui/LoaderText';
 interface UserAddProps {
   closeModal: (value: boolean) => void;
   onSuccess: (user: UserFormValues) => void;
@@ -158,7 +159,13 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
 
         <div className="form-actions">
           <Button type="submit" size='md' disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : user ? "Update" : "Create"}
+            {
+              isSubmitting
+                ? <LoaderText>Submitting</LoaderText>
+                : user
+                  ? "Update"
+                  : "Create"
+            }
           </Button>
           <Button type="reset" size='md' variant='ghost' onClick={() => closeModal(false)} disabled={isSubmitting}>
             Cancel

@@ -70,6 +70,19 @@ a{
   text-decoration: none;
 }
 
+.animate-spin{
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .badge {
   background-color: var(--accent-transparent);
   color: var(--accent);
