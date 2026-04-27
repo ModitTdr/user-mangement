@@ -95,7 +95,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             name='address.street'
             placeholder='e.g. 123 Main St'
             register={register("address.street")}
-            error={errors.username}
+            error={errors.address?.street}
             disabled={isSubmitting}
           />
           <Input
@@ -143,7 +143,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             name='company.catchPhrase'
             placeholder='e.g. Google'
             register={register("company.catchPhrase")}
-            error={errors.address?.zipcode}
+            error={errors.company?.catchPhrase}
             disabled={isSubmitting}
           />
           <Input
@@ -151,7 +151,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
             name='company.bs'
             placeholder='e.g. Google'
             register={register("company.bs")}
-            error={errors.address?.zipcode}
+            error={errors.company?.bs}
             disabled={isSubmitting}
           />
         </div>

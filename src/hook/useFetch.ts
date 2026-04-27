@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export const useFetch = <T>({ queryFn }: { queryFn: () => Promise<T> }) => {
-  const [data, setData] = useState<T | []>([]);
+  const [data, setData] = useState<T>([] as T);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
