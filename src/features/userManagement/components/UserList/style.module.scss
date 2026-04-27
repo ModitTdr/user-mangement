@@ -3,13 +3,14 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    gap: 1.5rem;
+    gap: 1rem;
     flex-wrap: wrap;
     margin-top: 2rem;
   }
 
   &__actions {
     display: flex;
+    align-items: center;
     gap: 0.8rem;
     flex-wrap: wrap;
 

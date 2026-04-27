@@ -1,7 +1,7 @@
 .input {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 
   input {
     border-radius: var(--rounded);
@@ -24,20 +24,36 @@
 
   }
 
+  &__error {
+    color: var(--danger);
+    font-size: 12px;
+    padding-left: 0.4rem;
+  }
+
   &--sm {
+    max-width: 200px;
     input {
       padding: 0 1.5rem;
     }
   }
 
   &--md {
+    max-width: 260px;
     input {
       padding: 0 1.4rem;
     }
   }
 
   &--lg {
+    max-width: 320px;
     input {
+      padding: 0 2rem;
+    }
+  }
+
+  &--full{
+    width: 100%;
+    input{
       padding: 0 2rem;
     }
   }

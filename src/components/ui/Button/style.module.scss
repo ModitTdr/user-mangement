@@ -11,6 +11,11 @@
   gap: 0.8rem;  
   background-color: var(--text);
 
+  span{
+    width:fit-content;
+    white-space: nowrap;
+  }
+
   &:hover {
     filter: brightness(1.1);
     transform: translateY(-2px);

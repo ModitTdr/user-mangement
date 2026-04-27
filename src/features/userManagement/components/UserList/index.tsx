@@ -80,6 +80,7 @@ const UserList = () => {
             placeholder="Search by name or email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            inputSize="lg"
           />
           <Select
             value={statusFilter}
