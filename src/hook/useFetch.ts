@@ -2,16 +2,13 @@ import { useEffect, useState } from "react";
 
 export const useFetch = <T>({ queryFn }: { queryFn: () => Promise<T> }) => {
   const [data, setData] = useState<T>([] as T);
-  const [isFetching, setIsFetching] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     const fetch = async () => {
-      setIsFetching(true);
-      setIsSuccess(false);
-      setError(false);
-
+      setIsLoading(true);
       try {
         const data = await queryFn();
         setData(data);
@@ -21,9 +18,8 @@ export const useFetch = <T>({ queryFn }: { queryFn: () => Promise<T> }) => {
         setError(true);
       }
       finally {
-        setIsFetching(false);
+        setIsLoading(false);
       }
-
     }
     fetch();
   }, [queryFn]);
@@ -31,7 +27,7 @@ export const useFetch = <T>({ queryFn }: { queryFn: () => Promise<T> }) => {
   return {
     data,
     setData,
-    isFetching,
+    isLoading,
     isSuccess,
     error
   }
