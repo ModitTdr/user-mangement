@@ -5,6 +5,7 @@ import { useFetch } from "@/hook/useFetch";
 import { getUsers } from "../userManagement/services/userServices";
 import type { UserFormValues } from "../userManagement/schema/formValidation";
 import LoadingPage from "@/pages/LoadingPage";
+import Charts from "./components/Charts";
 
 const DashboardHome = () => {
   const { data: users, isLoading } = useFetch<UserFormValues[]>({ queryFn: getUsers });
@@ -26,14 +27,14 @@ const DashboardHome = () => {
     },
     {
       title: "Active Sessions",
-      value: "154",
+      value: "100",
       icon: <Activity size={24} />,
       trend: { value: 2, isUp: false },
       color: "#a741f5ff"
     },
     {
       title: "Pending Requests",
-      value: "2",
+      value: "42",
       icon: <ShieldAlert size={24} />,
       trend: { value: 1, isUp: true },
       color: "#f2bb2fff"
@@ -67,10 +68,8 @@ const DashboardHome = () => {
       </section>
 
       <section className={styles.dashboard__charts}>
-
+        <Charts stats={stats} />
       </section>
-
-
     </div>
   );
 };

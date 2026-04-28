@@ -64,9 +64,9 @@ export const deleteUser = async (id: number) => {
     if (!res.ok) {
       throw new Error("Failed to delete user");
     }
-    return true;
+    return await res.json();
   } catch (error) {
     console.log(error);
-    return false;
+    return { data: error };
   }
 }

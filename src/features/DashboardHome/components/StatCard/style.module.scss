@@ -1,61 +1,7 @@
-// .statCard {
-//   &__content {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//   }
-
-//   &__title {
-//     font-size: 0.9rem;
-//     color: var(--text);
-//     font-weight: 500;
-//     margin-top: 1rem;
-//   }
-
-//   &__valueWrapper {
-//     display: flex;
-//     align-items: baseline;
-//     gap: 0.5rem;
-//   }
-
-//   &__value {
-//     font-size: 1.75rem;
-//     font-weight: 700;
-//     color: var(--text-h);
-//   }
-
-//   &__trend {
-//     font-size: 0.8rem;
-//     font-weight: 600;
-//     padding: 0.2rem 0.5rem;
-//     border-radius: 4px;
-//   }
-
-//   &__trendUp {
-//     color: var(--success);
-//     background: rgba(34, 197, 94, 0.1);
-//   }
-
-//   &__trendDown {
-//     color: var(--danger);
-//     background: rgba(239, 68, 68, 0.1);
-//   }
-
-//   &__icon {
-//     width: 48px;
-//     height: 48px;
-//     border-radius: var(--rounded);
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     font-size: 1.5rem;
-//   }
-// }
-
 .statCard{
+  padding-block: 10px;
   &__icon{
     width: fit-content;
-    padding: 6px 0px;
     border-radius: var(--rounded);
     display: flex;
     justify-content: center;
@@ -68,7 +14,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding-block:10px ;
 
     &__value{
       font-weight: 500;
