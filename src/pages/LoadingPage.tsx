@@ -1,10 +1,10 @@
 import LoaderText from "@/components/ui/LoaderText"
 
-const LoadingPage = () => {
+const LoadingPage = ({ text }: { text?: string }) => {
   return (
     <div className="loading-page">
-      <LoaderText loaderSize={32}>
-        Loading
+      <LoaderText loaderSize={28}>
+        {text || "Loading"}
       </LoaderText>
     </div>
   )

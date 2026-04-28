@@ -5,6 +5,7 @@ import { addUser as addUserService, updateUser as updateUserService } from '@/fe
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userFormSchema, type UserFormValues } from '../schema/formValidation';
 import LoaderText from '@/components/ui/LoaderText';
+import { useMutation } from '@/hook/useMutation';
 interface UserAddProps {
   closeModal: (value: boolean) => void;
   onSuccess: (user: UserFormValues) => void;
@@ -38,12 +39,16 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
     }
   });
 
+  const { mutate } = useMutation<UserFormValues, UserFormValues>({
+    mutateFn: user ? updateUserService : addUserService
+  });
+
   const onSubmit = async (data: UserFormValues) => {
     try {
-      const result = user
-        ? await updateUserService(data)
-        : await addUserService(data);
-      onSuccess(result);
+      const result = await mutate(data);
+      if (result) {
+        onSuccess(result);
+      }
     } catch (error) {
       console.log(error)
     } finally {

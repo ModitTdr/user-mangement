@@ -11,6 +11,8 @@ import type { UserFormValues } from "@/features/userManagement/schema/formValida
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
 import styles from './style.module.scss';
 import { useFetch } from "@/hook/useFetch";
+import { useMutation } from "@/hook/useMutation";
+import LoadingPage from "@/pages/LoadingPage";
 
 const UserList = () => {
   const [search, setSearch] = useState<string>("");
@@ -18,8 +20,11 @@ const UserList = () => {
   const [editingUser, setEditingUser] = useState<UserFormValues | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
-  const { data, isFetching, setData } = useFetch<UserFormValues[]>({
+  const { data, isLoading: isDataLoading, setData } = useFetch<UserFormValues[]>({
     queryFn: getUsers
+  });
+  const { mutate, isLoading: isDeleting } = useMutation<number, boolean>({
+    mutateFn: deleteUserService
   });
 
   const filteredUsers = useMemo(() => {
@@ -34,16 +39,17 @@ const UserList = () => {
     });
   }, [data, search]);
 
-  if (isFetching) return <p>Loading...</p>;
+  if (isDataLoading) return <LoadingPage />;
+  if (isDeleting) return <LoadingPage text="Deleting" />
 
   const handleDelete = async (id: number) => {
     const prevData = data;
     setData((users) => users.filter(u => u.id !== id))
     try {
-      await deleteUserService(id);
+      await mutate(id);
       toast.success('Deleted Success');
     } catch {
-      toast.error('Failed to delete user')
+      toast.error('Failed to delete user');
       setData(prevData);
     }
   };
