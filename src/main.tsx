@@ -4,12 +4,10 @@ import './index.css'
 import { RouterProvider } from 'react-router'
 import router from './routes/router.tsx'
 import { Toaster } from 'react-hot-toast'
-import Navbar from './components/Navbar'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <main>
-      <Navbar />
       <Toaster />
       <RouterProvider router={router} />
     </main>
