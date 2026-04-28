@@ -83,6 +83,14 @@ a{
   }
 }
 
+.loading-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 28px;
+}
+
 .badge {
   background-color: var(--accent-transparent);
   color: var(--accent);
