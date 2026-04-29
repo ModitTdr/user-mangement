@@ -1,13 +1,17 @@
 import { Card, CardBody, CardTop } from "@/components/ui/Card"
 import styles from "./style.module.scss"
 
-const Charts = ({ stats }) => {
+interface ChartsProps {
+  children: React.ReactNode
+  stats: { title?: string; value: number }[]
+}
+
+const Charts = ({ children, stats }: ChartsProps) => {
   return (
     <Card className={styles.chartContainer}>
       <CardTop>
         <div className={styles.chartContainer__header}>
-          <h2>User Overview</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
+          {children}
         </div>
       </CardTop>
       <CardBody className={styles.chartContainer__body}>
@@ -21,10 +25,13 @@ const Charts = ({ stats }) => {
               >
                 {stat.value}
 
-                <div className={styles.chartContainer__chart__items__tooltip}>
-                  <div className={styles.chartContainer__chart__items__tooltip__shape} />
-                  {stat.title}
-                </div>
+                {
+                  stat.title &&
+                  <div className={styles.chartContainer__chart__items__tooltip}>
+                    <div className={styles.chartContainer__chart__items__tooltip__shape} />
+                    {stat.title}
+                  </div>
+                }
               </div>
             ))
           }

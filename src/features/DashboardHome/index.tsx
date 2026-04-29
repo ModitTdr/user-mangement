@@ -20,21 +20,21 @@ const DashboardHome = () => {
     },
     {
       title: "New Users",
-      value: "4",
+      value: 4,
       icon: <UserPlus size={24} />,
       trend: { value: 5, isUp: true },
       color: "#26d265ff"
     },
     {
       title: "Active Sessions",
-      value: "100",
+      value: 100,
       icon: <Activity size={24} />,
       trend: { value: 2, isUp: false },
       color: "#a741f5ff"
     },
     {
       title: "Pending Requests",
-      value: "42",
+      value: 42,
       icon: <ShieldAlert size={24} />,
       trend: { value: 1, isUp: true },
       color: "#f2bb2fff"
@@ -68,7 +68,10 @@ const DashboardHome = () => {
       </section>
 
       <section className={styles.dashboard__charts}>
-        <Charts stats={stats} />
+        <Charts stats={stats} >
+          <h2>User Overview</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.</p>
+        </Charts>
       </section>
     </div>
   );
