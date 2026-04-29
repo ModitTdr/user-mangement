@@ -5,7 +5,7 @@
   position: fixed;
   z-index: 99;
   top: 0;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--bg);
   backdrop-filter: blur(8px);
 }
 
@@ -45,11 +45,11 @@
     transition: all 0.2s ease-in-out;
 
     &:hover {
-      color: white;
+      color: var(--bg);
       background-color: var(--text);
     }
     &--active {
-      color: white;
+      color: var(--bg);
       background-color: var(--text);
     }
   }

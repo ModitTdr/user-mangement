@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white;
+    background-color: var(--bg);
     color: var(--text-muted);
   }
   &__content{

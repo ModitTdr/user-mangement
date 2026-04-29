@@ -7,7 +7,7 @@
 .select {
   border-radius: var(--rounded);
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--bg);
   color: var(--text);
   backdrop-filter: blur(4px);
   transition: all 0.3s ease;
@@ -28,8 +28,6 @@
 
   &:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.5);
-    color: var(--text);
   }
 
   &::placeholder {

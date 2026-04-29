@@ -36,7 +36,7 @@ const Navbar = () => {
         </ul>
 
         <Button size="icon" variant="outline" onClick={toggleDarkMode}>
-          {isDark ? <Sun /> : <Moon />}
+          {isDark ? <Sun size={18} /> : <Moon size={18} />}
         </Button>
       </nav>
     </header >
