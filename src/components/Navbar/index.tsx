@@ -7,7 +7,11 @@ import Button from "../ui/Button"
 import { Moon, Sun } from "lucide-react"
 
 const Navbar = () => {
-  const { isDark, toggleDarkMode } = useContext(ThemeContext);
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("ThemeContext must be used within a ThemeProvider");
+  }
+  const { isDark, toggleDarkMode } = context;
 
   return (
     <header className={styles.header}>
@@ -33,11 +37,12 @@ const Navbar = () => {
               )
             })
           }
+          <li>
+            <Button size="icon" variant="outline" onClick={toggleDarkMode}>
+              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            </Button>
+          </li>
         </ul>
-
-        <Button size="icon" variant="outline" onClick={toggleDarkMode}>
-          {isDark ? <Sun size={18} /> : <Moon size={18} />}
-        </Button>
       </nav>
     </header >
   )
