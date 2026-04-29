@@ -1,0 +1,24 @@
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--rounded);
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &__top {
+    padding: 0.8rem 1.5rem;
+  }
+
+  &__body {
+    padding: 0.8rem 1.5rem;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+:global(.dark) .card {
+  background: var(--code-bg);
+  border-color: var(--border);
+}

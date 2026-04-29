@@ -5,20 +5,20 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   register?: UseFormRegisterReturn;
   error?: FieldError;
-  inputSize?: "sm" | "md" | "lg";
+  inputSize?: "sm" | "md" | "lg" | "full";
   className?: string;
 }
 
 const Input = ({ label, register, error, inputSize = "md", className, ...props }: InputProps) => {
   return (
-    <div className={`${styles.input} ${styles[`input--${inputSize}`]} ${className}`}>
+    <div className={`${styles.input} ${styles[`input--${inputSize}`]} ${className || ""}`}>
       {label && <label htmlFor={props.name}>{label}</label>}
       <input
         id={props.name}
         {...props}
         {...register}
       />
-      {error && <span className={styles.error}>{error.message}</span>}
+      {error && <span className={styles.input__error}>{error.message}</span>}
     </div>
   );
 };
