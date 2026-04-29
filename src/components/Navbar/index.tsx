@@ -1,8 +1,14 @@
 import { navLinks } from "@/data/navLinks"
 import styles from "./style.module.scss"
 import { NavLink } from "react-router"
+import { useContext } from "react"
+import { ThemeContext } from "@/context/ThemeContext"
+import Button from "../ui/Button"
+import { Moon, Sun } from "lucide-react"
 
 const Navbar = () => {
+  const { isDark, toggleDarkMode } = useContext(ThemeContext);
+
   return (
     <header className={styles.header}>
       <nav className={styles.navbar}>
@@ -28,6 +34,10 @@ const Navbar = () => {
             })
           }
         </ul>
+
+        <Button size="icon" variant="outline" onClick={toggleDarkMode}>
+          {isDark ? <Sun /> : <Moon />}
+        </Button>
       </nav>
     </header >
   )
