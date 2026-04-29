@@ -13,11 +13,13 @@ import styles from './style.module.scss';
 import { useFetch } from "@/hook/useFetch";
 import { useMutation } from "@/hook/useMutation";
 import LoadingPage from "@/pages/LoadingPage";
+import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "@/components/ui/Modal";
+import LoaderText from "@/components/ui/LoaderText";
 
 const UserList = () => {
   const [search, setSearch] = useState<string>("");
   const [modal, setModal] = useState<boolean>(false);
-  const [editingUser, setEditingUser] = useState<UserFormValues | null>(null);
+  const [user, setUser] = useState<UserFormValues | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
   const { data, isLoading: isDataLoading, setData } = useFetch<UserFormValues[]>({
@@ -40,37 +42,37 @@ const UserList = () => {
   }, [data, search]);
 
   if (isDataLoading) return <LoadingPage />;
-  if (isDeleting) return <LoadingPage text="Deleting" />
+
+  const closeModal = (value: boolean) => {
+    setModal(value);
+    if (!value) setUser(null);
+  };
 
   const handleDelete = async (id: number) => {
     const prevData = data;
-    setData((users) => users.filter(u => u.id !== id))
     try {
       await mutate(id);
       toast.success('Deleted Success');
+      setUser(null);
+      setData((users) => users.filter(u => u.id !== id))
     } catch {
       toast.error('Failed to delete user');
       setData(prevData);
     }
   };
 
-  const closeModal = (value: boolean) => {
-    setModal(value);
-    if (!value) setEditingUser(null);
-  };
-
   const handleEdit = (user: UserFormValues) => {
-    setEditingUser(user);
+    setUser(user);
     closeModal(true);
   };
 
   const handleSucess = async (newUser: UserFormValues) => {
-    if (editingUser) {
-      setData(prev => prev.map(u => u.id === editingUser.id ? { ...u, ...newUser } : u));
+    if (user) {
+      setData(prev => prev.map(u => u.id === user.id ? { ...u, ...newUser } : u));
     } else {
       setData(prev => [...prev, newUser!]);
     }
-    toast.success(editingUser ? "User updated successfully" : "User added successfully");
+    toast.success(user ? "User updated successfully" : "User added successfully");
   }
 
   return (
@@ -132,7 +134,7 @@ const UserList = () => {
                       <Button onClick={() => handleEdit(user)} size="icon" variant="ghost">
                         <Pencil size={14} />
                       </Button>
-                      <Button onClick={() => handleDelete(user.id)} size="icon" variant="ghost">
+                      <Button onClick={() => setUser(user)} size="icon" variant="ghost">
                         <Trash2 size={14} />
                       </Button>
                     </TableCell>
@@ -140,7 +142,7 @@ const UserList = () => {
                 )
               })
               :
-              <TableRow>
+              <TableRow gridTemplateColumns="1fr">
                 <TableCell>No users found matching your criteria.</TableCell>
               </TableRow>
           }
@@ -153,11 +155,29 @@ const UserList = () => {
             <UserAdd
               closeModal={closeModal}
               onSuccess={handleSucess}
-              user={editingUser || undefined}
+              user={user || undefined}
             />
           </section>,
           document.body
         )
+      }
+      {
+        user &&
+        <Modal onClose={() => setUser(null)}>
+          <ModalHeader>
+            <ModalTitle>Delete User</ModalTitle>
+          </ModalHeader>
+          <ModalBody style={{ maxWidth: "400px" }}>
+            Are you sure you want to delete the user {user.name}? This action is irreversible
+            and the user will be permanently removed from the system.
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={() => setUser(null)} disabled={isDeleting} variant="ghost">Close</Button>
+            <Button onClick={() => handleDelete(user.id)} variant="danger" disabled={isDeleting}>
+              {isDeleting ? <LoaderText> Deleting </LoaderText> : "Delete"}
+            </Button>
+          </ModalFooter>
+        </Modal>
       }
     </section >
   )
