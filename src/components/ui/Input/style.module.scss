@@ -3,7 +3,31 @@
   flex-direction: column;
   gap: 0.4rem;
 
-  input {
+  &__wrapper {
+    position: relative;
+  }
+
+
+
+  button {
+    width: fit-content !important;
+  }
+
+  &__eye {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    color: var(--text-muted);
+  }
+
+  &__field {
     border-radius: var(--rounded);
     border: 1px solid var(--border);
     background: var(--bg);
@@ -11,7 +35,6 @@
     font-size: 0.9rem;
     backdrop-filter: blur(4px);
     transition: all 0.3s ease;
-    height: 40px;
 
     &:focus {
       outline: none;
@@ -22,39 +45,34 @@
       color: var(--text-muted);
     }
 
+    &--sm {
+      max-width: 200px;
+      padding: 0 1.5rem;
+      height: 35px;
+    }
+
+    &--md {
+      max-width: 260px;
+      padding: 0 1.4rem;
+      height: 40px;
+    }
+
+    &--lg {
+      max-width: 320px;
+      padding: 0 2rem;
+      height: 45px;
+    }
+
+    &--full {
+      width: 100%;
+      padding: 0 2rem;
+      height: 45px;
+    }
   }
 
   &__error {
     color: var(--danger);
     font-size: 12px;
     padding-left: 0.4rem;
-  }
-
-  &--sm {
-    max-width: 200px;
-    input {
-      padding: 0 1.5rem;
-    }
-  }
-
-  &--md {
-    max-width: 260px;
-    input {
-      padding: 0 1.4rem;
-    }
-  }
-
-  &--lg {
-    max-width: 320px;
-    input {
-      padding: 0 2rem;
-    }
-  }
-
-  &--full{
-    width: 100%;
-    input{
-      padding: 0 2rem;
-    }
   }
 }
