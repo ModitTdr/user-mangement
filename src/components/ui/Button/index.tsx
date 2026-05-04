@@ -14,7 +14,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = ({ children, size = "sm", variant, onClick, type = "button", hidden = false, className, ...props }: ButtonProps) => {
   return (
     <button
-      className={`${styles.btn} ${styles[`btn--${size}`]} ${variant ? styles[`btn--${variant}`] : ''} ${hidden ? styles['btn--hidden'] : ''} ${className}`}
+      className={`${styles.btn} ${styles[`btn--${size}`]} ${variant ? styles[`btn--${variant}`] : ''} ${hidden ? styles['btn--hidden'] : ''} ${className || ""}`}
       onClick={onClick}
       type={type}
       {...props}

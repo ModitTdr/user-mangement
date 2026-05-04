@@ -6,11 +6,13 @@ interface TableProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Table = ({ children, className, ...props }: TableProps) => {
   return (
-    <div
-      {...props}
-      className={`${styles.table} ${className || ""}`}
-    >
-      {children}
+    <div className={styles.tableContainer}>
+      <div
+        {...props}
+        className={`${styles.table} ${className || ""}`}
+      >
+        {children}
+      </div>
     </div>
   );
 };

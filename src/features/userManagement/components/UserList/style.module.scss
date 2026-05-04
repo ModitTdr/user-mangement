@@ -1,0 +1,37 @@
+.userlist {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      > * {
+        flex: 1;
+      }
+    }
+  }
+
+  &__title {
+    color: var(--text);
+    h3 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+
+    p {
+      font-size: 0.8rem;
+    }
+  }
+}

@@ -1,7 +1,18 @@
 import { navLinks } from "@/data/navLinks"
 import styles from "./style.module.scss"
+import { NavLink } from "react-router"
+import { useContext } from "react"
+import { ThemeContext } from "@/context/ThemeContext"
+import Button from "../ui/Button"
+import { Moon, Sun } from "lucide-react"
 
 const Navbar = () => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("ThemeContext must be used within a ThemeProvider");
+  }
+  const { isDark, toggleDarkMode } = context;
+
   return (
     <header className={styles.header}>
       <nav className={styles.navbar}>
@@ -11,14 +22,29 @@ const Navbar = () => {
             navLinks.map((link) => {
               return (
                 <li key={link.id}>
-                  <a className={styles.navbar__link} href={link.url}>{link.title}</a>
+                  <NavLink
+                    className={
+                      ({ isActive }) => `${styles.navbar__link}
+                      ${isActive
+                          ? styles[`navbar__link--active`]
+                          : ""
+                        }`}
+                    to={link.url}
+                  >
+                    {link.title}
+                  </NavLink>
                 </li>
               )
             })
           }
+          <li>
+            <Button size="icon" variant="outline" onClick={toggleDarkMode}>
+              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            </Button>
+          </li>
         </ul>
       </nav>
-    </header>
+    </header >
   )
 }
 
