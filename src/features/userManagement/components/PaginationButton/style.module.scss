@@ -1,0 +1,24 @@
+.paginationButtons{
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+
+  button{
+    &:disabled{
+      opacity: 0.1;
+    }
+  }
+  &__buttonContainer{
+    display: flex;
+    gap: 4px;
+
+    &__button{
+      &:disabled{
+        background-color: var(--accent);
+        opacity: 1 !important;
+        color: white;
+      }
+    }
+  }
+}

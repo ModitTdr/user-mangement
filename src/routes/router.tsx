@@ -6,6 +6,7 @@ import Login from "@/features/Authentication/components/LoginForm/Login";
 import Register from "@/features/Authentication/components/RegisterForm/Register";
 import App from "@/App";
 import { RouteGuard } from "./RouteGuards";
+import UserDetails from "@/features/userManagement/components/UserDetails";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "users",
         element: <UserDashboard />,
+      },
+      {
+        path: "users/:id",
+        element: <UserDetails />,
       },
     ]
   },

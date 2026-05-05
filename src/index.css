@@ -24,7 +24,7 @@
 
   --rounded: 0.6rem;
   --rounded-lg: 1rem;
-  --rounded-full: 100%;
+  --rounded-full: 50%;
 
   letter-spacing: 0.18px;
   color-scheme: light dark;
