@@ -1,0 +1,28 @@
+.loginForm{
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  width: 100%;
+  align-items: center;
+  width: 100%;
+  max-width: 340px;
+
+  button{
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .selectContainer {
+    width: 100%;
+  }
+
+  &__links{
+    display: flex;
+    color: var(--text-muted);
+    gap: 0.2rem;
+  
+    a{
+      color: var(--info);
+    }
+  }
+}
