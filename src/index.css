@@ -93,30 +93,6 @@ a {
   font-size: 28px;
 }
 
-.badge {
-  background-color: var(--accent-transparent);
-  color: var(--accent);
-  border: 1px solid var(--accent-border);
-  padding: 0.3rem 0.5rem;
-  border-radius: 2rem;
-  position: absolute;
-  margin: 1rem;
-  font-size: 12px;
-  top: 0;
-  right: 0;
-  width: fit-content;
-}
-
-.badge.topright {
-  top: 0;
-  right: 0;
-}
-
-.badge.topleft {
-  top: 0;
-  left: 0;
-}
-
 .inputs {
   display: flex;
   flex-direction: column;

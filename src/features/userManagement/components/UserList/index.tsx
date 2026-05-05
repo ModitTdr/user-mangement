@@ -17,6 +17,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from "@/compon
 import LoaderText from "@/components/ui/LoaderText";
 import PaginationButton from "../PaginationButton";
 import { useNavigate } from "react-router";
+import Badge from "@/components/ui/Badge";
 
 export type PaginatedUsersResponse = {
   first: number;
@@ -216,6 +217,9 @@ const UserList = () => {
               <TableRow gridTemplateColumns="1fr">
                 <TableCell>No users found matching your criteria.</TableCell>
               </TableRow>
+                        <Badge status={user.status}>
+                          {user.status}
+                        </Badge>
           }
         </TableBody>
       </Table>
