@@ -16,9 +16,21 @@ export const getUserById = async (id: string): Promise<UserFormValues | null> =>
   }
 }
 
-export const getUsers = async (page = 1, limit = 5) => {
+export const getUsers = async (page = 1, limit = 5, status: string, sort: string, search: string) => {
+
+  let query = '';
+  if (status && status !== 'all') {
+    query += `&status:eq=${status}`;
+  }
+  if (sort && sort !== 'default') {
+    query += `&_sort=${sort}`;
+  }
+  if (search && search !== "") {
+    query += `&firstName:contains=${search}`
+  }
+
   try {
-    const res = await fetch(`${API_URL}/users?_page=${page}&_per_page=${limit}`);
+    const res = await fetch(`${API_URL}/users?_page=${page}&_per_page=${limit}${query}`);
     if (!res.ok) {
       throw new Error("Failed to fetch users");
     }
