@@ -1,18 +1,17 @@
-import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
+import type { FieldError } from "react-hook-form";
 import styles from "./style.module.scss";
 import { useState } from "react";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  register?: UseFormRegisterReturn;
   error?: FieldError;
   inputSize?: "sm" | "md" | "lg" | "full";
   className?: string;
   type?: string;
 }
 
-const Input = ({ label, register, error, inputSize = "md", className, type = "text", ...props }: InputProps) => {
+const Input = ({ label, error, inputSize = "md", className, type = "text", ...props }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
 
@@ -26,7 +25,6 @@ const Input = ({ label, register, error, inputSize = "md", className, type = "te
           id={props.name}
           type={isPassword ? (showPassword ? "text" : "password") : type}
           {...props}
-          {...register}
         />
 
         {isPassword && (

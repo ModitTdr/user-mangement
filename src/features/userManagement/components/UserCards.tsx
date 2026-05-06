@@ -3,12 +3,12 @@ import Button from "@/components/ui/Button";
 import type { UserFormValues } from "../schema/formValidation";
 
 interface UserCardProps extends UserFormValues {
-  onDelete?: (id: number) => void;
+  onDelete?: (id: string) => void;
   onEdit?: (user: UserFormValues) => void;
 }
 
 const UserCards = (user: UserCardProps) => {
-  const { id, name, email, address, onDelete, onEdit } = user;
+  const { id, username, email, address, onDelete, onEdit } = user;
 
   return (
     <div className="card" >
@@ -21,7 +21,10 @@ const UserCards = (user: UserCardProps) => {
         }
         {
           onDelete &&
-          <Button onClick={() => onDelete(id)} variant="outline" size="icon" hidden={true} className="card-btn">
+          <Button onClick={() => {
+            if (id)
+              onDelete(id)
+          }} variant="outline" size="icon" hidden={true} className="card-btn">
             <Trash2 size={16} />
           </Button>
         }
@@ -31,10 +34,10 @@ const UserCards = (user: UserCardProps) => {
       </div>
       <div className="card-body">
         <div className="card-title">
-          <h4>{name}</h4>
+          <h4>{username}</h4>
           {/* <span className={`status ${status ? "active" : "inactive"}`} /> */}
         </div>
-        <p>{address.city}</p>
+        <p>{address}</p>
         <p>{email}</p>
       </div>
     </div>

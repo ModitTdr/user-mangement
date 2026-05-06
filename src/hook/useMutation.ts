@@ -5,10 +5,10 @@ export const useMutation = <T1, T2>({ mutateFn }: { mutateFn: (data: T1) => Prom
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
-  const mutate = async (data: T1) => {
+  const mutate = async (data?: T1) => {
     setIsLoading(true);
     try {
-      const result = await mutateFn(data);
+      const result = await mutateFn(data as T1);
       setIsSuccess(true);
       return result;
     } catch {

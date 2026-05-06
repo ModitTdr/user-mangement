@@ -1,10 +1,36 @@
 import type { UserFormValues } from "../schema/formValidation";
 
-const API_URL = 'https://jsonplaceholder.typicode.com';
+const API_URL = import.meta.env.VITE_LOCALSERVER_URL;
 
-export const getUsers = async () => {
+export const getUserById = async (id: string): Promise<UserFormValues | null> => {
   try {
-    const res = await fetch(`${API_URL}/users`);
+    const res = await fetch(`http://localhost:3000/users/${id}`);
+    if (!res.ok) {
+      throw new Error("Failed to fetch users");
+    }
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export const getUsers = async (page = 1, limit = 5, status: string, sort: string, search: string) => {
+
+  let query = '';
+  if (status && status !== 'all') {
+    query += `&status:eq=${status}`;
+  }
+  if (sort && sort !== 'default') {
+    query += `&_sort=${sort}`;
+  }
+  if (search && search !== "") {
+    query += `&firstName:contains=${search}`
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/users?_page=${page}&_per_page=${limit}${query}`);
     if (!res.ok) {
       throw new Error("Failed to fetch users");
     }
@@ -17,9 +43,11 @@ export const getUsers = async () => {
 }
 
 export const addUser = async (user: UserFormValues) => {
-  const generateId = Math.floor(Date.now() * 1000); //simulating backend id auto generation
+  //simulating backend id and createdAt auto generation
+  const generateId = Math.floor(Date.now() * 1000);
+  const createdAt = new Date().toISOString().split('T')[0];
   try {
-    const newData = { ...user, id: generateId };
+    const newData = { ...user, id: generateId, createdAt };
     const res = await fetch(`${API_URL}/users`, {
       method: "POST",
       headers: {
@@ -56,7 +84,7 @@ export const updateUser = async (user: UserFormValues) => {
   }
 };
 
-export const deleteUser = async (id: number) => {
+export const deleteUser = async (id: string) => {
   try {
     const res = await fetch(`${API_URL}/users/${id}`, {
       method: "DELETE",

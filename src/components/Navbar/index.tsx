@@ -4,7 +4,12 @@ import { NavLink } from "react-router"
 import { useContext } from "react"
 import { ThemeContext } from "@/context/ThemeContext"
 import Button from "../ui/Button"
-import { Moon, Sun } from "lucide-react"
+import { LogOutIcon, Moon, Sun } from "lucide-react"
+import { useDispatch } from "react-redux"
+import { logOut } from "@/features/Authentication/authSlice"
+import { LogoutUser } from "@/features/Authentication/services/authService"
+import { useMutation } from "@/hook/useMutation"
+import toast from "react-hot-toast"
 
 const Navbar = () => {
   const context = useContext(ThemeContext);
@@ -12,6 +17,14 @@ const Navbar = () => {
     throw new Error("ThemeContext must be used within a ThemeProvider");
   }
   const { isDark, toggleDarkMode } = context;
+  const mutation = useMutation({ mutateFn: LogoutUser })
+
+  const dispatch = useDispatch()
+  const handleLogout = async () => {
+    const res = await mutation.mutate();
+    toast.success(res.message)
+    dispatch(logOut());
+  }
 
   return (
     <header className={styles.header}>
@@ -37,12 +50,15 @@ const Navbar = () => {
               )
             })
           }
-          <li>
-            <Button size="icon" variant="outline" onClick={toggleDarkMode}>
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
-            </Button>
-          </li>
         </ul>
+        <div className={styles.navbar__navbuttons}>
+          <Button size="icon" variant="outline" onClick={toggleDarkMode}>
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </Button>
+          <Button size="icon" variant="outline" onClick={handleLogout}>
+            <LogOutIcon size={18} />
+          </Button>
+        </div>
       </nav>
     </header >
   )

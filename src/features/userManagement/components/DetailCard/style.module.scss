@@ -1,0 +1,42 @@
+
+.infoCard {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  padding: 0.4rem;
+
+  &__sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--bg-muted);
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-h);
+    }
+  }
+
+  &__detailsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    &__detail {
+      label {
+        display: block;
+        font-size: .9rem;
+        color: var(--text-muted);
+        letter-spacing: 0.05em;
+        margin-bottom: 0.4rem;
+      }
+
+      p {
+        font-size: 1rem;
+        color: var(--text);
+      }
+    }
+  }
+}

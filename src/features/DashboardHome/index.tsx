@@ -3,38 +3,47 @@ import styles from './style.module.scss';
 import StatCard from "./components/StatCard";
 import { useFetch } from "@/hook/useFetch";
 import { getUsers } from "../userManagement/services/userServices";
-import type { UserFormValues } from "../userManagement/schema/formValidation";
 import LoadingPage from "@/pages/LoadingPage";
 import Charts from "./components/Charts";
+import type { PaginatedUsersResponse } from "../userManagement/components/UserList";
 
 const DashboardHome = () => {
-  const { data: users, isLoading } = useFetch<UserFormValues[]>({ queryFn: getUsers });
+  const { data: users, isLoading } = useFetch<PaginatedUsersResponse>({ queryFn: getUsers });
+
+  if (isLoading) return <LoadingPage />
+
+  const activeUser = users?.data?.filter(
+    (user) => user.status === "active"
+  ) || [];
+  const pendingUser = users?.data?.filter(
+    (user) => user.status === "pending"
+  ) || [];
 
   const stats = [
     {
       title: "Total Users",
-      value: users?.length || 0,
+      value: users?.items || 0,
       icon: <Users size={24} />,
       trend: { value: 12, isUp: true },
       color: "#4184f0ff"
     },
     {
       title: "New Users",
-      value: 4,
+      value: 5,
       icon: <UserPlus size={24} />,
       trend: { value: 5, isUp: true },
       color: "#26d265ff"
     },
     {
       title: "Active Sessions",
-      value: 100,
+      value: activeUser.length,
       icon: <Activity size={24} />,
       trend: { value: 2, isUp: false },
       color: "#a741f5ff"
     },
     {
       title: "Pending Requests",
-      value: 42,
+      value: pendingUser.length,
       icon: <ShieldAlert size={24} />,
       trend: { value: 1, isUp: true },
       color: "#f2bb2fff"
@@ -47,10 +56,6 @@ const DashboardHome = () => {
     month: 'long',
     day: 'numeric'
   });
-
-  if (isLoading) {
-    return <LoadingPage />
-  }
 
   return (
     <div className={styles.dashboard}>

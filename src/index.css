@@ -24,7 +24,7 @@
 
   --rounded: 0.6rem;
   --rounded-lg: 1rem;
-  --rounded-full: 100%;
+  --rounded-full: 50%;
 
   letter-spacing: 0.18px;
   color-scheme: light dark;
@@ -91,30 +91,6 @@ a {
   align-items: center;
   height: 100vh;
   font-size: 28px;
-}
-
-.badge {
-  background-color: var(--accent-transparent);
-  color: var(--accent);
-  border: 1px solid var(--accent-border);
-  padding: 0.3rem 0.5rem;
-  border-radius: 2rem;
-  position: absolute;
-  margin: 1rem;
-  font-size: 12px;
-  top: 0;
-  right: 0;
-  width: fit-content;
-}
-
-.badge.topright {
-  top: 0;
-  right: 0;
-}
-
-.badge.topleft {
-  top: 0;
-  left: 0;
 }
 
 .inputs {

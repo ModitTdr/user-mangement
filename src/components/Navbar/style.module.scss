@@ -28,9 +28,15 @@
     gap: 0.4rem;
     padding: 0.3rem 0.6rem;
     border-radius: 1.8rem;
+
     li {
       list-style-type: none;
     }
+  }
+
+  &__navbuttons {
+    display: flex;
+    gap: 8px;
   }
 
   &__link {
@@ -48,6 +54,7 @@
       color: var(--bg);
       background-color: var(--text);
     }
+
     &--active {
       color: var(--bg);
       background-color: var(--text);
