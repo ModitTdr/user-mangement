@@ -21,6 +21,7 @@ function withParams<T extends { params: Params }>(Component: ComponentType<T>) {
   return (props) => {
     const params = useParams();
     const navigate = useNavigate();
+
     return <Component {...(props as T)} params={params} navigate={navigate} />;
   };
 }
@@ -30,8 +31,8 @@ interface UserState {
   loading: boolean;
 }
 
-class UserDetails extends Component<{ params: { id: string }, navigate: (path: string) => void }, UserState> {
-  constructor(props: { params: { id: string }, navigate: (path: string) => void }) {
+class UserDetails extends Component<{ params: { id: string }, navigate: (path: number) => void }, UserState> {
+  constructor(props: { params: { id: string }, navigate: (path: number) => void }) {
     super(props);
     this.state = {
       user: null,
@@ -67,7 +68,7 @@ class UserDetails extends Component<{ params: { id: string }, navigate: (path: s
 
     return (
       <div className={styles.container}>
-        <Button onClick={() => this.props.navigate("/users")} variant="outline" size="icon">
+        <Button onClick={() => this.props.navigate(-1)} variant="outline" size="icon">
           <ChevronLeft size={18} />
         </Button>
         <div className={styles.userDetails}>

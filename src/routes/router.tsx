@@ -1,20 +1,22 @@
 import { createBrowserRouter } from "react-router";
-import UserDashboard from "@/pages/UserDashboard";
 import DashboardHome from "@/features/DashboardHome";
 import AuthLayout from "@/features/Authentication";
 import Login from "@/features/Authentication/components/LoginForm/Login";
 import Register from "@/features/Authentication/components/RegisterForm/Register";
-import App from "@/App";
-import { RouteGuard } from "./RouteGuards";
 import UserDetails from "@/features/userManagement/components/UserDetails";
+import PublicRoute from "./PublicRoute";
+import PrivateRoute from "./PrivateRoute";
+import NotAllowed from "@/pages/NotAllowed";
+import UserManagement from "@/features/userManagement";
+import UserList from "@/features/userManagement/components/UserList";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element:
-      <RouteGuard type="protected">
-        <App />
-      </RouteGuard>,
+      <PrivateRoute allowedRoles={["ADMIN"]}>
+        <UserManagement />
+      </PrivateRoute >,
     children: [
       {
         index: true,
@@ -22,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path: "users",
-        element: <UserDashboard />,
+        element: <UserList />,
       },
       {
         path: "users/:id",
@@ -33,9 +35,9 @@ const router = createBrowserRouter([
 
   {
     element:
-      <RouteGuard type="public">
+      <PublicRoute>
         <AuthLayout />
-      </RouteGuard>,
+      </PublicRoute>,
     children: [
       {
         path: 'login',
@@ -46,6 +48,11 @@ const router = createBrowserRouter([
         element: <Register />
       }
     ]
+  },
+
+  {
+    path: '*',
+    element: <NotAllowed />
   }
 
 

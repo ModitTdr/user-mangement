@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useFetch = <T>({ queryFn }: { queryFn: () => Promise<T> }) => {
   const [data, setData] = useState<T>([] as T);
@@ -6,23 +6,24 @@ export const useFetch = <T>({ queryFn }: { queryFn: () => Promise<T> }) => {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetch = async () => {
-      setIsLoading(true);
-      try {
-        const data = await queryFn();
-        setData(data);
-        setIsSuccess(true);
-      }
-      catch {
-        setError(true);
-      }
-      finally {
-        setIsLoading(false);
-      }
+  const fetch = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const data = await queryFn();
+      setData(data);
+      setIsSuccess(true);
     }
+    catch {
+      setError(true);
+    }
+    finally {
+      setIsLoading(false);
+    }
+  }, [queryFn])
+
+  useEffect(() => {
     fetch();
-  }, [queryFn]);
+  }, [fetch]);
 
   return {
     data,

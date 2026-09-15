@@ -1,6 +1,7 @@
 import type { UserFormValues } from "../schema/formValidation";
+import { publicApi } from "@/axios/axios";
 
-const API_URL = import.meta.env.VITE_LOCALSERVER_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const getUserById = async (id: string): Promise<UserFormValues | null> => {
   try {
@@ -16,7 +17,7 @@ export const getUserById = async (id: string): Promise<UserFormValues | null> =>
   }
 }
 
-export const getUsers = async (page = 1, limit = 5, status: string, sort: string, search: string) => {
+export const getUsers = async (page = 1, limit = 5, status: string, sort: string, search: string, token?: string) => {
 
   let query = '';
   if (status && status !== 'all') {
@@ -30,12 +31,13 @@ export const getUsers = async (page = 1, limit = 5, status: string, sort: string
   }
 
   try {
-    const res = await fetch(`${API_URL}/users?_page=${page}&_per_page=${limit}${query}`);
-    if (!res.ok) {
-      throw new Error("Failed to fetch users");
-    }
-    const data = await res.json();
-    return data;
+    // const res = await fetch(`${API_URL}/users?_page=${page}&_per_page=${limit}${query}`);
+    const res = await publicApi.get(`/users`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return res.data;
   } catch (error) {
     console.log(error);
     return [];
