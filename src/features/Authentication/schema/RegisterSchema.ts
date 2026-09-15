@@ -10,7 +10,6 @@ export const RegisterSchema = z.object({
     .min(8, 'Password should be minimum 8 digits')
     .max(20, 'Password should be maximum 20 digits')
     .regex(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Password should have atleat one capital letter, number and special character'),
-  role: z.enum(['ADMIN', 'USER'])
 })
 
 export type RegisterValues = z.infer<typeof RegisterSchema>;

@@ -1,10 +1,12 @@
 import "./style.scss"
-import UserList from "./components/UserList"
+import Navbar from "@/components/Navbar"
+import { Outlet } from "react-router"
 
 const UserManagement = () => {
   return (
     <main className="userdashboard">
-      <UserList />
+      <Navbar />
+      <Outlet />
     </main>
   )
 }

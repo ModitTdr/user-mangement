@@ -10,7 +10,7 @@ import Select from '@/components/ui/Select';
 
 interface UserAddProps {
   closeModal: (value: boolean) => void;
-  onSuccess: (user: UserFormValues) => void;
+  onSuccess: () => void;
   user?: UserFormValues;
 }
 
@@ -75,7 +75,7 @@ const UserAdd = ({ closeModal, onSuccess, user }: UserAddProps) => {
   const onSubmit = async (data: UserFormValues) => {
     try {
       const result = await mutate(data);
-      if (result) onSuccess(result);
+      if (result) onSuccess();
     } catch (error) {
       console.log(error);
     } finally {

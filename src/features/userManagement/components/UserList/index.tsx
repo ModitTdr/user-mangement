@@ -18,6 +18,7 @@ import PaginationButton from "../PaginationButton";
 import { useNavigate } from "react-router";
 import { useDebounce } from "@/hook/useDebounce";
 import Badge from "@/components/ui/Badge";
+import { useAuth } from "@/hook/useAuth";
 
 export type PaginatedUsersResponse = {
   first: number;
@@ -43,12 +44,12 @@ const UserList = () => {
   const navigate = useNavigate();
 
   const debounceSearch = useDebounce(filter.search, 500);
-
+  const { accessToken } = useAuth();
   const queryFn = useCallback(() => {
-    return getUsers(page, limit, filter.status, filter.sort, debounceSearch);
-  }, [page, limit, filter.status, filter.sort, debounceSearch]);
+    return getUsers(page, limit, filter.status, filter.sort, debounceSearch, accessToken);
+  }, [page, limit, filter.status, filter.sort, debounceSearch, accessToken]);
 
-  const { data, isLoading: isDataLoading, setData } = useFetch<PaginatedUsersResponse>({
+  const { data, isLoading: isDataLoading, setData, refetch } = useFetch<PaginatedUsersResponse>({
     queryFn
   });
   const { mutate, isLoading: isDeleting } = useMutation<string, boolean>({
@@ -64,11 +65,7 @@ const UserList = () => {
     try {
       await mutate(user.id);
       toast.success('Deleted Success');
-      setData((prev) => ({
-        ...prev,
-        items: prev.items - 1,
-        data: prev.data.filter(u => u.id !== user.id)
-      }))
+      refetch();
       setDeleteModal(false);
     } catch {
       toast.error('Failed to delete user');
@@ -81,19 +78,8 @@ const UserList = () => {
     setFormModal(true);
   };
 
-  const handleSucess = async (newUser: UserFormValues) => {
-    if (user) {
-      setData(prev => ({
-        ...prev,
-        data: prev.data.map(u => u.id === user.id ? { ...u, ...newUser } : u)
-      }));
-    } else {
-      setData(prev => ({
-        ...prev,
-        items: prev.items + 1,
-        data: [...prev.data, newUser]
-      }));
-    }
+  const handleSucess = async () => {
+    refetch()
     toast.success(user ? "User updated successfully" : "User added successfully");
   }
 

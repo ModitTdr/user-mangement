@@ -18,8 +18,8 @@ const Register = () => {
     defaultValues: {
       email: "",
       password: "",
-      username: "",
-      role: "ADMIN",
+      // username: "",
+
     }
   });
 
